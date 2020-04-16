@@ -7,9 +7,9 @@ import { mount } from 'enzyme'
 import App from './App'
 
 describe('<App />', () => {
-  it('has 1 child', () => {
+  it('has children', () => {
     const tree = renderer.create(< App />).toJSON();
-    expect(tree.children.length).toBe(2);
+    expect(tree.children.length).toBe(3);
   })
   
   it("has the word 'start'", () => {
