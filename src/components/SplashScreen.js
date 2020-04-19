@@ -1,11 +1,14 @@
 import React from 'react'
-import { View } from 'react-native'
-import Logo from './Logo'
+import { View, Image } from 'react-native'
+import splashImage from '../../assets/splash.png'
 
 const SplashScreen = () => {
   return (
-    <View style={{flex: 1}}> 
-      <Logo />
+    <View style={{flex: 1, backgroundColor: "#3484F2"}}> 
+      <Image
+        style={{flex: 1, resizeMode: 'contain', width: undefined, height: undefined}}
+        source={splashImage}
+      />
     </View>
   )
 }

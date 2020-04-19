@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { wakeUpAPI } from './src/api/apiRequests'
-import SplashScreen from './src/components/SplashScreen'
+import { SplashScreen } from 'expo'
+import SplashScreenComponent from './src/components/SplashScreen'
 import TINNDARP from './src/main'
 
 class App extends Component {
@@ -13,23 +14,23 @@ class App extends Component {
   }
 
   componentDidMount() {
+    SplashScreen.preventAutoHide() 
     this.warmUpBackend()
   }
 
   warmUpBackend() {
     return wakeUpAPI()
       .then(response => this.setState({items: response.data}))
-      .then(() => this.delayReadyState())
       .catch(error => console.log("There was a problem waking up the backend."))
-  }
-
-  delayReadyState() {
-    setTimeout(() => this.setState({appIsReady: true}), 2000)
+      .finally(() => {
+        this.setState({appIsReady: true})
+        SplashScreen.hide()
+      })
   }
 
   render() {
     if (!this.state.appIsReady) {
-      return <SplashScreen />
+      return <SplashScreenComponent />
     } else {
       return <TINNDARP items={this.state.items}/>
     }

@@ -6,15 +6,17 @@ import { StyleSheet, Text, View } from 'react-native'
 export default function TINNDARP(props) {
   const store = configureStore()
 
-  const items = props.items.map(itemData => {
-    return (<Text key={itemData.id}> {JSON.stringify(itemData)}</Text>)
-  })
+  const listItems = () => {
+    return props.items.map(itemData => {
+        return (<Text key={itemData.id}> {JSON.stringify(itemData)}</Text>)
+    })
+  }
 
   return (
     <Provider store={store} >
       <View style={styles.container}>
         <Text testID="text">Item Data:</Text>
-        {items}
+        {props.items ? listItems() : <Text> None </Text>}
       </View>
     </Provider>
   )
@@ -22,6 +24,7 @@ export default function TINNDARP(props) {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: "5%",
     marginRight: "5%",
     marginLeft: "5%",
     flex: 1,
