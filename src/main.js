@@ -1,33 +1,15 @@
 import React from 'react'
-import { Provider } from 'react-redux'
-import configureStore from './configureStore'
-import { StyleSheet, Text, View } from 'react-native'
+import ProvideCredentialsView from './userAccount/ProvideCredentialsView'
+import UserAuthenticatedView from './userAccount/UserAuthenticatedView'
 
-export default function TINNDARP(props) {
-  const store = configureStore()
+const TINNDARP = (props) => {
 
-  const listItems = () => {
-    return props.items.map(itemData => {
-        return (<Text key={itemData.id}> {JSON.stringify(itemData)}</Text>)
-    })
+  if (props.tokenExists) { 
+    return <UserAuthenticatedView items={props.items} />
+  } else {
+    return <ProvideCredentialsView /> 
   }
-
-  return (
-    <Provider store={store} >
-      <View style={styles.container}>
-        <Text testID="text">Item Data:</Text>
-        {props.items ? listItems() : <Text> None </Text>}
-      </View>
-    </Provider>
-  )
+  
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: "5%",
-    marginRight: "5%",
-    marginLeft: "5%",
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-})
+export default TINNDARP

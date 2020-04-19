@@ -1,5 +1,5 @@
 import * as apiRequests from './apiRequests'
-import { apiBaseURL, fetchWrapper } from './apiConfig'
+import { apiBaseURL, fetchWrapper } from './configAPI'
 
 describe("wakeUpApi()", () => {
   
