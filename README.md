@@ -58,3 +58,7 @@ On the right, under the QR code, click "Open project in the browser" (and click 
 A virtual Android device will load. Click "Tap to play" and wait if the screen indicates that there are other devices in the queue before you. 
 
 When the app finishes building, the virtual Android device will be running the Expo Client App, similar to an actual iOS device.  Scroll down in the virtual Android device and click "Open project in Expo."  TINNDÅRP should appear. 
+
+# Known Issues
+
+- For saving JSON Web Tokens locally, the app relies on the AsyncStorage module according to the [Expo docs](https://docs.expo.io/versions/latest/react-native/asyncstorage/). This requires importing AsyncStorage from React Native directly, but according to the React Native docs, AsyncStorage is depreciated with respect to the React Native core library and [must be imported from the React Native community](https://github.com/react-native-community/async-storage). As a result, Jest may throw warnings about AsyncStorage being depreciated when you run tests.  This is a known, unresolved, and ongoing (as of April, 2020) issue.  Expo cannot link to the React Native community source if it is built with a managed workflow, as this workflow does not allow extension of Expo's native module packages.  See, for example, [here](https://github.com/react-native-community/async-storage/issues/89), [here](https://github.com/react-native-community/async-storage/issues/304), and [here](https://stackoverflow.com/questions/56029007/nativemodule-asyncstorage-is-null-with-rnc-asyncstorage).  
