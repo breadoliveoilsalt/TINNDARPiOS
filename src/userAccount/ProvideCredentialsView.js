@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { KeyboardAvoidingView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, View, Text, TextInput, TouchableOpacity, TouchableHighlight, Modal, StyleSheet } from 'react-native'
+import { logIn, signUp } from '../api/apiRequests'
+import { saveToken } from './tokenActions'
 import Logo from '../components/Logo'
 
 class ProvideCredentialsView extends Component {
@@ -8,15 +10,53 @@ class ProvideCredentialsView extends Component {
     super(props)
     this.state = {
       userEmail: "",
-      userPassword: ""
+      userPassword: "",
+      messages: [],
+      messagesModalVisible: false
     }
   }
 
-  handleLogIn() {
-    console.log("Logging in", this.state.userEmail, this.state.userPassword)
+  handleAPIRequest(callback) {
+    const credentials = {
+      email: this.state.userEmail, 
+      password: this.state.userPassword
+    }
+    callback(credentials)
+      .then(data => {
+        if (data.loggedIn) {
+          saveToken(data.token)
+          const messages = ["You are logged in with token", data.token]
+          this.showMessages(messages)
+        } else if (!data.loggedIn) {
+          const messages = ["Sorry, there were some errors:", ...data.errors]
+          this.showMessages(messages)
+        }
+      })
+      .catch(() => {
+        const messages = ["Sorry, there was a server error."]
+        this.showMessages(messages)
+      })
   }
 
-  handleSignUp() {
+  showMessages(messages) {
+    this.setState({
+      messages: messages,
+      messagesModalVisible: true
+    })
+  }
+
+  hideMessages() {
+    this.setState({
+      messages: [],
+      messagesModalVisible: false
+    })
+  }
+
+  renderMessages() {
+    return this.state.messages.map( (message, index) => {
+      return <Text key={index} style={styles.modalText}>{message}</Text>
+      }
+    )
   }
 
   render() {
@@ -35,6 +75,7 @@ class ProvideCredentialsView extends Component {
           onChangeText={(text) => this.setState({userEmail: text})}
           textContentType={"username"}
           value={this.state.userEmail}
+          autoCapitalize={"none"}
         />
         <TextInput
           style={styles.textInput}
@@ -43,19 +84,38 @@ class ProvideCredentialsView extends Component {
           textContentType={"password"}
           secureTextEntry={true}
           value={this.state.userPassword}
+          autoCapitalize={"none"}
         />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.handleLogIn()}
+          onPress={() => this.handleAPIRequest(logIn)}
         >
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.handleSignUp()}
+          onPress={() => this.handleAPIRequest(signUp)}
         >
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.messagesModalVisible}
+        >
+          <View style={styles.centeredModal}>
+            <View style={styles.modalView}>
+              {this.renderMessages()}
+              <TouchableHighlight
+                style={styles.modalCloseButton}
+                onPress={() => this.hideMessages()}
+              >
+                <Text style={styles.modalCloseButtonText}>Close</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
       </KeyboardAvoidingView>
     )
 
@@ -101,6 +161,45 @@ const styles = StyleSheet.create({
     color: "#3484F2",
     borderColor: "#808080",
     borderWidth: 2,
+    textAlign: "center"
+  },
+  centeredModal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "lightgrey",
+    borderRadius: 20,
+    borderColor: "black",
+    borderWidth: 2,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  },
+  modalCloseButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+   backgroundColor: "#2196F3" 
+  },
+  modalCloseButtonText: {
+    color: "white",
+    fontWeight: "bold",
     textAlign: "center"
   }
 })

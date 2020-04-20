@@ -18,6 +18,8 @@ class App extends Component {
 
   componentDidMount() {
     SplashScreen.preventAutoHide()
+    // $$ DELETE
+    tokenActions.deleteToken()
     this.warmUp()
   }
 
