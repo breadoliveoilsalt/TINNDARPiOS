@@ -6,7 +6,11 @@ export const wakeUpAPI = () => {
 
 export const logIn = (credentials) => {
   const url = apiBaseURL + "/log_in"
-  const data = { user: credentials }
+  const data = { user: {
+    ...credentials,
+    persistent_token: true 
+    }
+  }
   return fetchWrapper.post(url, data)
     .then(rawData => process(rawData))
 }
