@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, View, Text, TextInput, TouchableOpacity, Touchabl
 import { logIn, signUp } from '../api/apiRequests'
 import { saveToken } from './tokenActions'
 import Logo from '../components/Logo'
+import MessagesModal from '../components/MessagesModal'
 
 class ProvideCredentialsView extends Component {
 
@@ -52,12 +53,7 @@ class ProvideCredentialsView extends Component {
     })
   }
 
-  renderMessages() {
-    return this.state.messages.map( (message, index) => {
-      return <Text key={index} style={styles.modalText}>{message}</Text>
-      }
-    )
-  }
+
 
   render() {
     return (
@@ -67,8 +63,10 @@ class ProvideCredentialsView extends Component {
       >
         <Text style={styles.text} >Welcome To</Text>
         <Logo />
+
         <Text style={styles.text} >We're glad you're here</Text>
         <Text style={styles.text} >Please enter your information below to log in or sign up</Text>
+
         <TextInput
           style={styles.textInput}
           placeholder={"Enter email address"}
@@ -77,6 +75,7 @@ class ProvideCredentialsView extends Component {
           value={this.state.userEmail}
           autoCapitalize={"none"}
         />
+
         <TextInput
           style={styles.textInput}
           placeholder={"Enter password"}
@@ -86,12 +85,14 @@ class ProvideCredentialsView extends Component {
           value={this.state.userPassword}
           autoCapitalize={"none"}
         />
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.handleAPIRequest(logIn)}
         >
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.handleAPIRequest(signUp)}
@@ -99,23 +100,12 @@ class ProvideCredentialsView extends Component {
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
 
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.messagesModalVisible}
-        >
-          <View style={styles.centeredModal}>
-            <View style={styles.modalView}>
-              {this.renderMessages()}
-              <TouchableHighlight
-                style={styles.modalCloseButton}
-                onPress={() => this.hideMessages()}
-              >
-                <Text style={styles.modalCloseButtonText}>Close</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
-        </Modal>
+        <MessagesModal 
+          visible={this.state.messagesModalVisible} 
+          messages={this.state.messages} 
+          onClose={() => this.hideMessages()} 
+        />
+
       </KeyboardAvoidingView>
     )
 
