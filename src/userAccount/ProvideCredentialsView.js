@@ -26,9 +26,10 @@ class ProvideCredentialsView extends Component {
       .then(data => {
         if (data.loggedIn) {
           saveToken(data.token)
+          this.props.renderLoggedInView()
           // $$ Remove below once logged in home screen implemented 
-          const messages = ["You are logged in with token", data.token]
-          this.showMessages(messages)
+          // const messages = ["You are logged in with token", data.token]
+          // this.showMessages(messages)
         } else if (!data.loggedIn) {
           const messages = ["Sorry, there were some errors:", ...data.errors]
           this.showMessages(messages)

@@ -4,7 +4,11 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 const UserAuthenticatedView = (props) => {
-  return null
+  return (
+      <View style={styles.container}>
+        <Text>You signed in!</Text>
+      </View>
+  )
 }
 // const UserAuthenticatedView = (props) => {
 //   const store = configureStore()
