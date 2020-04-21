@@ -50,7 +50,7 @@ class App extends Component {
     if (!this.state.appIsReady) {
       return <SplashScreenComponent />
     } else {
-      return <TINNDARP items={this.state.items} tokenExists={this.state.tokenExists}/>
+      return <TINNDARP tokenExists={this.state.tokenExists}/>
     }
   }
 }
