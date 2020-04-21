@@ -64,6 +64,32 @@ describe("<ProvideCredentialsView />", () => {
     expect(instance.handleAPIRequest).toHaveBeenCalledWith(apiRequests.signUp)
   })
 
+  it("renders a <MessagesModal />", () => {
+    expect(wrapper.find(MessagesModal).length).toEqual(1)
+  })
+
+  describe("the <MessagesModal />", () => {
+
+    it("defaults to hidden", () => {
+      expect(wrapper.find(MessagesModal).prop("visible")).toEqual(false)
+    })
+
+    it("takes a messages prop equal to the messages in the state", () => {
+      const errorMessages = ["Error loggin in", "Invalid password"]
+      wrapper.setState({messages: errorMessages})
+      
+      expect(wrapper.find(MessagesModal).prop("messages")).toEqual(errorMessages)
+    })
+
+    it("calls hideMessages() onClose", () => {
+      const instance = wrapper.instance()
+      jest.spyOn(instance, "hideMessages")
+
+      wrapper.find(MessagesModal).simulate("close")
+      expect(instance.hideMessages).toHaveBeenCalledTimes(1)
+    })
+  })
+
   describe("handleAPIRequest", () => {
 
     let instance
