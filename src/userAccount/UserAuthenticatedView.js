@@ -1,14 +1,27 @@
-import React from 'react'
+import React, { Component }from 'react'
 // import { Provider } from 'react-redux'
 // import configureStore from '../configureStore'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 
-const UserAuthenticatedView = (props) => {
-  return (
-      <View style={styles.container}>
-        <Text>You signed in!</Text>
-      </View>
-  )
+class UserAuthenticatedView extends Component {
+
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+        <View style={styles.container}>
+          <Text>You signed in!</Text>
+        <TouchableOpacity
+          onPress={this.props.renderSignedOutView}
+        >
+          <Text >Sign Out</Text>
+        </TouchableOpacity>
+
+        </View>
+    )
+  }
 }
 // const UserAuthenticatedView = (props) => {
 //   const store = configureStore()

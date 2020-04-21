@@ -10,7 +10,7 @@ class TINNDARP extends Component {
       loggedIn: this.props.tokenExists
     }
     this.renderLoggedInView = this.renderLoggedInView.bind(this)
-    this.renderLoggedOutView = this.renderSignedOutView.bind(this)
+    this.renderSignedOutView = this.renderSignedOutView.bind(this)
   }
 
   renderLoggedInView() {
@@ -18,7 +18,7 @@ class TINNDARP extends Component {
   }
 
   renderSignedOutView() {
-    this.setState({loggedIn: true})
+    this.setState({loggedIn: false})
   }
 
   render() {
