@@ -1,10 +1,10 @@
 import React from 'react'
-import { shallow, mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import SplashScreen from './src/components/SplashScreen'
 import TINNDARP from './src/main'
-import * as apiRequests from './src/api/apiRequests'
-
 import App from './App'
+import * as apiRequests from './src/api/apiRequests'
+import * as tokenActions from './src/userAccount/tokenActions'
 
 describe('<App />', () => {
 
@@ -30,32 +30,57 @@ describe('<App />', () => {
     expect(wrapper.find(TINNDARP).length).toEqual(1)
   })
 
-  it("warms up the backend when it mounts", async () => {
-    const instance = wrapper.instance()
-    jest.spyOn(instance, 'warmUpBackend')
-    instance.componentDidMount()
-    expect(instance.warmUpBackend).toHaveBeenCalledTimes(1)
+  it("passes the tokenExists state to <TINNDARP />", () => {
+    wrapper.setState({appIsReady: true})
+    const tinndarpProps = wrapper.find(TINNDARP).props()
+
+    expect(tinndarpProps.tokenExists).toEqual(wrapper.props().tokenExists)
   })
 
-  describe("warmUpBackend()", () => {
+  it("warms up the backend when it mounts", async () => {
+    const instance = wrapper.instance()
+    jest.spyOn(instance, 'warmUp')
+    instance.componentDidMount()
+    expect(instance.warmUp).toHaveBeenCalledTimes(1)
+  })
+
+  describe("warmUp()", () => {
+
+    const mockData = {data: ["item 1", "item 2"]}
 
     it("calls an api request to wake up the backend in case it is sleeping", async () => {
-      jest.spyOn(apiRequests, "wakeUpAPI").mockImplementation(() => Promise.resolve({data: ["item 1", "item 2"]}))
+      jest.spyOn(apiRequests, "wakeUpAPI").mockResolvedValue(mockData)
 
-      wrapper.instance().warmUpBackend()
+      wrapper.instance().warmUp()
 
       expect(apiRequests.wakeUpAPI).toHaveBeenCalledTimes(1)
     })
 
-    it("sets sets the app's state to ready when wakeUpAPI() resolves", async () => {
-      jest.spyOn(apiRequests, "wakeUpAPI").mockImplementation(() => Promise.resolve({data: ["item 1", "item 2"]}))
+    it("checks if the user has a token", async () => {
+      jest.spyOn(apiRequests, "wakeUpAPI").mockResolvedValue(mockData)
+      jest.spyOn(tokenActions, "tokenExists").mockResolvedValue(true)
 
-      expect(wrapper.state().appIsReady).toEqual(false)
+      expect(wrapper.state().tokenExists).toEqual(false)
 
-      wrapper.instance().warmUpBackend()
-        .then(() => expect(wrapper.state().appIsReady).toEqual(true))
+      return wrapper.instance().warmUp()
+        .then(() => {
+          expect(tokenActions.tokenExists).toHaveBeenCalledTimes(1)
+          expect(wrapper.state().tokenExists).toEqual(true)
+        })
     })
     
+    it("delays the ready state to add a pause to the SplashScreen if the api response is fast", async () => {
+      const instance = wrapper.instance()
+      jest.spyOn(instance, 'delayReadyState')
+      jest.spyOn(apiRequests, "wakeUpAPI").mockResolvedValue(mockData)
+      jest.spyOn(tokenActions, "tokenExists").mockResolvedValue(true)
+
+      return wrapper.instance().warmUp()
+        .then(() => {
+          expect(instance.delayReadyState).toHaveBeenCalledTimes(1)
+        })
+    })
+
   })
 
 })
