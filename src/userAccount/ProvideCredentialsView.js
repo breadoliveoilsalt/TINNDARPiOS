@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { KeyboardAvoidingView, View, Text, TextInput, TouchableOpacity, TouchableHighlight, Modal, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import { logIn, signUp } from '../api/apiRequests'
 import { saveToken } from './tokenActions'
 import Logo from '../components/Logo'
@@ -22,10 +22,11 @@ class ProvideCredentialsView extends Component {
       email: this.state.userEmail, 
       password: this.state.userPassword
     }
-    callback(credentials)
+    return callback(credentials)
       .then(data => {
         if (data.loggedIn) {
           saveToken(data.token)
+          // $$ Remove below on next epic
           const messages = ["You are logged in with token", data.token]
           this.showMessages(messages)
         } else if (!data.loggedIn) {
@@ -52,8 +53,6 @@ class ProvideCredentialsView extends Component {
       messagesModalVisible: false
     })
   }
-
-
 
   render() {
     return (
