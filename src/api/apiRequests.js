@@ -6,20 +6,24 @@ export const wakeUpAPI = () => {
 
 export const logIn = (credentials) => {
   const url = apiBaseURL + "/log_in"
-  const data = { user: {
-    ...credentials,
-    persistent_token: true 
-    }
-  }
-  return fetchWrapper.post(url, data)
+  const params = formatParams(credentials)
+  return fetchWrapper.post(url, params)
     .then(rawData => process(rawData))
 }
 
 export const signUp = (credentials) => {
   const url = apiBaseURL + "/sign_up"
-  const data = { user: credentials }
-  return fetchWrapper.post(url, data)
+  const params = formatParams(credentials)
+  return fetchWrapper.post(url, params)
     .then(rawData => process(rawData))
+}
+
+const formatParams = (credentials) => {
+  return { user: {
+    ...credentials,
+    persistent_token: true 
+    }
+  }
 }
 
 
