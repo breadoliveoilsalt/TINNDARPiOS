@@ -26,7 +26,7 @@ class ProvideCredentialsView extends Component {
       .then(data => {
         if (data.loggedIn) {
           saveToken(data.token)
-          // $$ Remove below on next epic
+          // $$ Remove below once logged in home screen implemented 
           const messages = ["You are logged in with token", data.token]
           this.showMessages(messages)
         } else if (!data.loggedIn) {

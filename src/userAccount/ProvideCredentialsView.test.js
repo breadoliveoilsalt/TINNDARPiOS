@@ -49,6 +49,20 @@ describe("<ProvideCredentialsView />", () => {
     expect(instance.handleAPIRequest).toHaveBeenCalledTimes(1)
     expect(instance.handleAPIRequest).toHaveBeenCalledWith(apiRequests.logIn)
   })
+  
+  it("has a <TouchableOpacity /> button to handle signing in", () => {
+    const logInButton = wrapper.find(TouchableOpacity).at(1)
+
+    expect(logInButton.find(Text).props().children).toContain("Sign Up")
+
+    const instance = wrapper.instance()
+    jest.spyOn(instance, "handleAPIRequest")
+
+    logInButton.simulate("press") 
+
+    expect(instance.handleAPIRequest).toHaveBeenCalledTimes(1)
+    expect(instance.handleAPIRequest).toHaveBeenCalledWith(apiRequests.signUp)
+  })
 
   describe("handleAPIRequest", () => {
 
@@ -75,7 +89,7 @@ describe("<ProvideCredentialsView />", () => {
       expect(apiRequests.logIn).toHaveBeenCalledWith({email: mockUserEmail, password: mockUserPassword})
     })
 
-    it("on a successful log in, saves the returned token", () => {
+    it("on a successful authentication, saves the returned token", () => {
       let mockData = {
         loggedIn: true,
         token: "xyz"
@@ -90,7 +104,7 @@ describe("<ProvideCredentialsView />", () => {
         })
     })
 
-    it("on an unsuccessful log in, displays MessagesModal with the error messages", () => {
+    it("on an unsuccessful authentication, displays MessagesModal with the error messages", () => {
       let mockData = {
         loggedIn: false,
         errors: ["Invalid log in", "Bad password"]
@@ -115,6 +129,7 @@ describe("<ProvideCredentialsView />", () => {
           expect(modal.prop("messages")).toContain(mockData.errors[1])
         }) 
     })
+
   })
 
 })
