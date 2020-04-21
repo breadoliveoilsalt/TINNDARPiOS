@@ -7,7 +7,7 @@
       "android",
       "web"
     ],
-    "version": "0.2.0",
+    "version": "0.3.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -24,7 +24,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tinndarp.tinndarpios",
-      "buildNumber": "0.2.0"
+      "buildNumber": "0.3.0"
     }
   }
 }
