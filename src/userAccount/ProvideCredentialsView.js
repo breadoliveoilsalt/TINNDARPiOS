@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, Text, TextInput, StyleSheet } from 'react-native'
 import { logIn, signUp } from '../api/apiRequests'
 import { saveToken } from './tokenActions'
 import Logo from '../components/Logo'

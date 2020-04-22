@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import ProvideCredentialsView from './ProvideCredentialsView'
 import UserAccountButton from './UserAccountButton'
 import MessagesModal from '../components/MessagesModal'
-import { Text, TextInput, TouchableOpacity } from 'react-native'
+import { TextInput } from 'react-native'
 import * as apiRequests from '../api/apiRequests'
 import * as tokenActions from '../userAccount/tokenActions'
 

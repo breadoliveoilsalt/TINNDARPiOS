@@ -3,7 +3,6 @@ import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 
 const UserAccountButton = (props) => {
   const { action, buttonText } = props
-
   return (
     <TouchableOpacity
       style={styles.button}
@@ -11,7 +10,6 @@ const UserAccountButton = (props) => {
     >
       <Text style={styles.buttonText}>{buttonText}</Text>
     </TouchableOpacity>
-
   )
 }
 
