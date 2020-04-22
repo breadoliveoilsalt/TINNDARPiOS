@@ -14,14 +14,14 @@ describe("<UserHome />", () => {
   
   describe("the Sign Out button", () => {
 
-    it("calls the renderSignedOutView prop when its action is triggered", () => {
-      const props = {renderSignedOutView: jest.fn()}
+    it("calls the signOutOfApp prop when its action is triggered", () => {
+      const props = {signOutOfApp: jest.fn()}
       const wrapper = shallow(<UserHome {...props} />)
       const signOutButton = wrapper.find(UserAccountButton)
 
       signOutButton.props().action()
 
-      expect(props.renderSignedOutView).toHaveBeenCalledTimes(1)
+      expect(props.signOutOfApp).toHaveBeenCalledTimes(1)
     })
 
   })

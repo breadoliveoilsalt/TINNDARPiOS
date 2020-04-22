@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { KeyboardAvoidingView, Text, TextInput, StyleSheet } from 'react-native'
 import { logIn, signUp } from '../api/apiRequests'
-import { saveToken } from './tokenActions'
 import Logo from '../components/Logo'
 import UserAccountButton from './UserAccountButton'
 import MessagesModal from '../components/MessagesModal'
@@ -26,11 +25,7 @@ class ProvideCredentialsView extends Component {
     return callback(credentials)
       .then(data => {
         if (data.loggedIn) {
-          saveToken(data.token)
-          this.props.renderLoggedInView()
-          // $$ Remove below once logged in home screen implemented 
-          // const messages = ["You are logged in with token", data.token]
-          // this.showMessages(messages)
+          this.props.logInToApp(data.token)
         } else if (!data.loggedIn) {
           const messages = ["Sorry, there were some errors:", ...data.errors]
           this.showMessages(messages)

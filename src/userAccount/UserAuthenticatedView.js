@@ -45,7 +45,7 @@ class UserAuthenticatedView extends Component {
           }}
           >
           <Tab.Screen name="Home">
-            {props => <UserHome {...props} renderSignedOutView={this.props.renderSignedOutView} />}
+            {props => <UserHome {...props} signOutOfApp={this.props.signOutOfApp} />}
           </Tab.Screen>
           <Tab.Screen name={"Browse"} component={BrowsingContainer} />
           <Tab.Screen name={"Compare"} component={ComparingContainer} />

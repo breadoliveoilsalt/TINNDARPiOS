@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import * as tokenActions from './userAccount/tokenActions'
 import ProvideCredentialsView from './userAccount/ProvideCredentialsView'
 import UserAuthenticatedView from './userAccount/UserAuthenticatedView'
 
@@ -9,23 +10,25 @@ class TINNDARP extends Component {
     this.state = {
       loggedIn: this.props.tokenExists
     }
-    this.renderLoggedInView = this.renderLoggedInView.bind(this)
-    this.renderSignedOutView = this.renderSignedOutView.bind(this)
+    this.logInToApp = this.logInToApp.bind(this)
+    this.signOutOfApp = this.signOutOfApp.bind(this)
   }
 
-  renderLoggedInView() {
-    this.setState({loggedIn: true})
+  logInToApp(token) {
+    return tokenActions.saveToken(token)
+      .then(() => this.setState({loggedIn: true}))
   }
 
-  renderSignedOutView() {
-    this.setState({loggedIn: false})
+  signOutOfApp() {
+    return tokenActions.deleteToken()
+      .then(() => this.setState({loggedIn: false}))
   }
 
   render() {
     if (this.state.loggedIn) { 
-      return <UserAuthenticatedView renderSignedOutView={this.renderSignedOutView} />
+      return <UserAuthenticatedView signOutOfApp={this.signOutOfApp} />
     } else {
-      return <ProvideCredentialsView renderLoggedInView={this.renderLoggedInView} /> 
+      return <ProvideCredentialsView logInToApp={this.logInToApp} /> 
     }
   }
   

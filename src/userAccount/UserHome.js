@@ -11,7 +11,7 @@ const UserHome = (props) => {
       <Text style={styles.text} >Please click Browse to rate items.</Text>
       <Text style={styles.text} >Then click Compare to see what items you and another user have both liked!</Text>
       <Text style={styles.text} >If you ever want to sign out, click below.</Text>
-      <UserAccountButton action={props.renderSignedOutView} buttonText={"Sign Out"} />
+      <UserAccountButton action={props.signOutOfApp} buttonText={"Sign Out"} />
     </View>
   )
 }

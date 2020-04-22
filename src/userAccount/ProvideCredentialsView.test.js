@@ -11,10 +11,12 @@ describe("<ProvideCredentialsView />", () => {
   
   const mockUserEmail = "bill@bill.com"
   const mockUserPassword = "password"
+  let props
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<ProvideCredentialsView />)
+    props = {logInToApp: jest.fn()}
+    wrapper = shallow(<ProvideCredentialsView {...props} />)
   })
 
   it("has a TextInput for entering a user's email address, with changes updating the userEmail state", () => {
@@ -114,18 +116,16 @@ describe("<ProvideCredentialsView />", () => {
       expect(apiRequests.logIn).toHaveBeenCalledWith({email: mockUserEmail, password: mockUserPassword})
     })
 
-    it("on a successful authentication, saves the returned token", () => {
+    it("on a successful authentication, logs the user into the app", () => {
       let mockData = {
         loggedIn: true,
         token: "xyz"
       }
       jest.spyOn(apiRequests, "logIn").mockResolvedValue(mockData)
-      jest.spyOn(tokenActions, "saveToken").mockResolvedValue(true)
 
       return instance.handleAPIRequest(apiRequests.logIn)
         .then(() => {
-          expect(tokenActions.saveToken).toHaveBeenCalledTimes(1)
-          expect(tokenActions.saveToken).toHaveBeenCalledWith(mockData.token)
+          expect(props.logInToApp).toHaveBeenCalledTimes(1)
         })
     })
 
