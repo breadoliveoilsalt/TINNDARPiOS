@@ -8,10 +8,6 @@ import * as tokenActions from './userAccount/tokenActions'
 
 describe("<TINNDARP />", () => {
 
-  afterEach(() => {
-    tokenActions.deleteToken()
-  })
-
   it("renders <UserAuthenticatedView /> if the parent has determined a token exists", () => {
     const props = {tokenExists: true}
     const wrapper = shallow(<TINNDARP {...props} />)
@@ -27,7 +23,6 @@ describe("<TINNDARP />", () => {
 
     expect(wrapper.find(UserAuthenticatedView).prop("signOutOfApp")).toEqual(instance.signOutOfApp)
   })
-
 
   it("renders <ProvideCredentialsView /> if the parent has determined a token does not exist", () => {
     const props = {tokenExists: false}
