@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet } f
 import { logIn, signUp } from '../api/apiRequests'
 import { saveToken } from './tokenActions'
 import Logo from '../components/Logo'
+import UserAccountButton from './UserAccountButton'
 import MessagesModal from '../components/MessagesModal'
 
 class ProvideCredentialsView extends Component {
@@ -86,19 +87,8 @@ class ProvideCredentialsView extends Component {
           autoCapitalize={"none"}
         />
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.handleAPIRequest(logIn)}
-        >
-          <Text style={styles.buttonText}>Log In</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.handleAPIRequest(signUp)}
-        >
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
+        <UserAccountButton action={() => this.handleAPIRequest(logIn)} buttonText={"Log In"} />
+        <UserAccountButton action={() => this.handleAPIRequest(signUp)} buttonText={"Sign Up"} />
 
         <MessagesModal 
           visible={this.state.messagesModalVisible} 
@@ -136,60 +126,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: "80%",
     backgroundColor: "#fff"
-  },
-  button: {
-    width: "60%"
-  },
-  buttonText: {
-    marginTop: "7%",
-    paddingTop: "2%",
-    paddingBottom: "2%",
-    paddingLeft: "10%",
-    paddingRight: "10%",
-    backgroundColor: "#FFDD1F",
-    fontSize: 20,
-    color: "#3484F2",
-    borderColor: "#808080",
-    borderWidth: 2,
-    textAlign: "center"
-  },
-  centeredModal: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "lightgrey",
-    borderRadius: 20,
-    borderColor: "black",
-    borderWidth: 2,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  },
-  modalCloseButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-   backgroundColor: "#2196F3" 
-  },
-  modalCloseButtonText: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
   }
 })

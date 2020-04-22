@@ -1,6 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import ProvideCredentialsView from './ProvideCredentialsView'
+import UserAccountButton from './UserAccountButton'
 import MessagesModal from '../components/MessagesModal'
 import { Text, TextInput, TouchableOpacity } from 'react-native'
 import * as apiRequests from '../api/apiRequests'
@@ -36,29 +37,27 @@ describe("<ProvideCredentialsView />", () => {
     expect(wrapper.state().userPassword).toEqual(mockUserPassword)
   })
 
-  it("has a <TouchableOpacity /> button to handle logging in", () => {
-    const logInButton = wrapper.find(TouchableOpacity).at(0)
+  it("has a <UserAccountButton /> to handle logging in", () => {
+    const logInButton = wrapper.find(UserAccountButton).at(0)
 
-    expect(logInButton.find(Text).props().children).toContain("Log In")
+    expect(logInButton.prop("buttonText")).toContain("Log In")
 
     const instance = wrapper.instance()
     jest.spyOn(instance, "handleAPIRequest")
-
-    logInButton.simulate("press") 
+    logInButton.props().action()
 
     expect(instance.handleAPIRequest).toHaveBeenCalledTimes(1)
     expect(instance.handleAPIRequest).toHaveBeenCalledWith(apiRequests.logIn)
   })
   
-  it("has a <TouchableOpacity /> button to handle signing in", () => {
-    const logInButton = wrapper.find(TouchableOpacity).at(1)
+  it("has a <UserAccountButton /> to handle signing in", () => {
+    const signUpButton = wrapper.find(UserAccountButton).at(1)
 
-    expect(logInButton.find(Text).props().children).toContain("Sign Up")
+    expect(signUpButton.prop("buttonText")).toContain("Sign Up")
 
     const instance = wrapper.instance()
     jest.spyOn(instance, "handleAPIRequest")
-
-    logInButton.simulate("press") 
+    signUpButton.props().action()
 
     expect(instance.handleAPIRequest).toHaveBeenCalledTimes(1)
     expect(instance.handleAPIRequest).toHaveBeenCalledWith(apiRequests.signUp)
