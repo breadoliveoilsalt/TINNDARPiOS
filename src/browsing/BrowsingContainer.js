@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, PanResponder, Animated, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import { getItemsToBrowse } from '../api/apiRequests'
 import { getToken } from '../userAccount/tokenActions'
 import SwipeableImage from './SwipeableImage'
@@ -34,7 +34,7 @@ class BrowsingContainer extends Component {
   }
 
   render() {
-    //getItemsToBrowse only requires {token: token} as params
+    //$$getItemsToBrowse only requires {token: token} as params
     if (this.state.itemsToBrowse) {
       return (
         <View style={{...styles.container, ...this.state.backgroundColor}} >
@@ -49,10 +49,11 @@ class BrowsingContainer extends Component {
         </View>
       )
     } else {
+      return (
         <View style={styles.container} >
-          <Text>No images!</Text>
+          <ActivityIndicator size="large" color="#FFDD1F" />
         </View>
-      return null
+      )
     }
 
   }
@@ -63,6 +64,7 @@ export default BrowsingContainer
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#3484F2",
     justifyContent: "center",
     alignItems: "center",
   },
