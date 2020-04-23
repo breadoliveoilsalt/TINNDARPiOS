@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { KeyboardAvoidingView, Text, TextInput, StyleSheet } from 'react-native'
 import { logIn, signUp } from '../api/apiRequests'
 import Logo from '../components/Logo'
-import UserAccountButton from './UserAccountButton'
+import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 
 class ProvideCredentialsView extends Component {
@@ -82,8 +82,8 @@ class ProvideCredentialsView extends Component {
           autoCapitalize={"none"}
         />
 
-        <UserAccountButton action={() => this.handleAPIRequest(logIn)} buttonText={"Log In"} />
-        <UserAccountButton action={() => this.handleAPIRequest(signUp)} buttonText={"Sign Up"} />
+        <ActionButton action={() => this.handleAPIRequest(logIn)} buttonText={"Log In"} />
+        <ActionButton action={() => this.handleAPIRequest(signUp)} buttonText={"Sign Up"} />
 
         <MessagesModal 
           visible={this.state.messagesModalVisible} 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Logo from '../components/Logo'
-import UserAccountButton from './UserAccountButton'
+import ActionButton from '../components/ActionButton'
 
 const UserHome = (props) => {
   return (
@@ -11,7 +11,7 @@ const UserHome = (props) => {
       <Text style={styles.text} >Please click Browse to rate items.</Text>
       <Text style={styles.text} >Then click Compare to see what items you and another user have both liked!</Text>
       <Text style={styles.text} >If you ever want to sign out, click below.</Text>
-      <UserAccountButton action={props.signOutOfApp} buttonText={"Sign Out"} />
+      <ActionButton action={props.signOutOfApp} buttonText={"Sign Out"} />
     </View>
   )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 
-const UserAccountButton = (props) => {
+const ActionButton = (props) => {
   const { action, buttonText } = props
   return (
     <TouchableOpacity
@@ -13,7 +13,7 @@ const UserAccountButton = (props) => {
   )
 }
 
-export default UserAccountButton
+export default ActionButton
 
 const styles = StyleSheet.create({
   button: {

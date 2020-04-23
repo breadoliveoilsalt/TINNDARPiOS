@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import ProvideCredentialsView from './ProvideCredentialsView'
-import UserAccountButton from './UserAccountButton'
+import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 import { TextInput } from 'react-native'
 import * as apiRequests from '../api/apiRequests'
@@ -39,8 +39,8 @@ describe("<ProvideCredentialsView />", () => {
     expect(wrapper.state().userPassword).toEqual(mockUserPassword)
   })
 
-  it("has a <UserAccountButton /> to handle logging in", () => {
-    const logInButton = wrapper.find(UserAccountButton).at(0)
+  it("has a <ActionButton /> to handle logging in", () => {
+    const logInButton = wrapper.find(ActionButton).at(0)
 
     expect(logInButton.prop("buttonText")).toContain("Log In")
 
@@ -52,8 +52,8 @@ describe("<ProvideCredentialsView />", () => {
     expect(instance.handleAPIRequest).toHaveBeenCalledWith(apiRequests.logIn)
   })
   
-  it("has a <UserAccountButton /> to handle signing in", () => {
-    const signUpButton = wrapper.find(UserAccountButton).at(1)
+  it("has a <ActionButton /> to handle signing in", () => {
+    const signUpButton = wrapper.find(ActionButton).at(1)
 
     expect(signUpButton.prop("buttonText")).toContain("Sign Up")
 

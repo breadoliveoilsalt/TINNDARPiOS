@@ -4,7 +4,7 @@ import { Linking } from 'expo'
 import { getItemsToBrowse } from '../api/apiRequests'
 import { getToken } from '../userAccount/tokenActions'
 import SwipeableImage from './SwipeableImage'
-import UserAccountButton from '../userAccount/UserAccountButton'
+import ActionButton from '../components/ActionButton'
 
 class BrowsingContainer extends Component {
 
@@ -26,7 +26,6 @@ class BrowsingContainer extends Component {
       .catch(() => console.log("There was a problem getting the items to browse"))
   }
 
-  // $$ finish this
   openLink(url) {
     Linking.openURL(url)
   }
@@ -49,7 +48,7 @@ class BrowsingContainer extends Component {
         <Text style={{...styles.text, fontWeight: "bold", fontSize: 40}}>{currentItem.name}</Text>
         <Text style={styles.text}>{currentItem.description}</Text>
         <Text style={styles.text}>${currentItem.price}</Text>
-        <UserAccountButton buttonText="Click for More Info" action={() => this.openLink(currentItem.moreInfoURL)} />
+        <ActionButton buttonText="Click for More Info" action={() => this.openLink(currentItem.moreInfoURL)} />
         <SwipeableImage 
           style={styles.image}
           source={this.state.itemsToBrowse[0].imageURL}
