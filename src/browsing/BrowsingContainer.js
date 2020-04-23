@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
-import { Linking } from 'expo'
+// import { Linking } from 'expo'
+// import { LinkingWrapper } from '../api/linkingWrapper'
+import { openURL } from '../api/linkingWrapper'
 import { getItemsToBrowse } from '../api/apiRequests'
 import { getToken } from '../userAccount/tokenActions'
 import SwipeableImage from './SwipeableImage'
@@ -27,7 +29,8 @@ class BrowsingContainer extends Component {
   }
 
   openLink(url) {
-    Linking.openURL(url)
+    // return LinkingWrapper.openURL(url)
+    openURL(url)
   }
 
   render() {
