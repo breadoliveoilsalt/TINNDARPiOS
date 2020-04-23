@@ -2,47 +2,17 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, PanResponder, Animated, Dimensions } from 'react-native'
 import { getItemsToBrowse } from '../api/apiRequests'
 import { getToken } from '../userAccount/tokenActions'
+import SwipeableImage from './SwipeableImage'
 
 class BrowsingContainer extends Component {
 
   constructor(props) {
     super(props)
-    this.translateX = new Animated.Value(0)
-    this.panResponder = PanResponder.create({
-      onMoveShouldSetResponderCapture: () => true,
-      onMoveShouldSetPanResponderCapture: () => true,
-      onPanResponderMove: Animated.event([null, { dx: this.translateX }]),
-      onPanResponderRelease: (e, { vx, dx }) => {
-        const screenWidth = Dimensions.get("window").width
-        this.setState({screenWidth: screenWidth})
-        this.setState({ dx: dx }) // dx - accumulated distance of the gesture since the touch started (x axis)
-        this.setState({ vx: vx }) // vx - current velocity of the gesture (x axis)
-        if (this.sufficientRightSwipe(screenWidth, vx, dx)) {
-          Animated.timing(this.translateX, {
-            toValue: dx > 0 ? screenWidth : -screenWidth,
-            duration: 200
-          }).start(this.setState({backgroundColor: {backgroundColor: "yellow"}}))
-        } else if (this.sufficientLeftSwipe(screenWidth, vx, dx)) {
-          Animated.timing(this.translateX, {
-            toValue: dx > 0 ? screenWidth : -screenWidth,
-            duration: 200
-          }).start(this.setState({backgroundColor: {backgroundColor: "blue"}}))
-        } else {
-          Animated.spring(this.translateX, {
-            toValue: 0,
-            bounciness: 10
-          }).start()
-        }
-      }
-    })
     this.state = {
       token: null,
       itemsToBrowse: null,
       messages: [],
       messagesModalVisible: false,
-      dx: 0,
-      vx: 0,
-      screenWidth: 0,
       backgroundColor: {backgroundColor: "red"}
     }
   }
@@ -69,15 +39,13 @@ class BrowsingContainer extends Component {
       return (
         <View style={{...styles.container, ...this.state.backgroundColor}} >
           <Text>Browsing Container</Text>
-          <Text>DX: {this.state.dx}</Text>
-          <Text>VX: {this.state.vx}</Text>
-          <Text>screenWidth: {this.state.screenWidth}</Text>
 
-          <Animated.Image 
-           source={{uri: this.state.itemsToBrowse[0].imageURL}}
-           style={{ transform: [{ translateX: this.translateX }], ...styles.image}} 
-           {...this.panResponder.panHandlers}
-           />
+          <SwipeableImage 
+            style={styles.image}
+            source={this.state.itemsToBrowse[0].imageURL}
+            rightSwipeAction={() => this.setState({backgroundColor: { backgroundColor: "yellow" }})}
+            leftSwipeAction={() => this.setState({backgroundColor: { backgroundColor: "blue" }})}
+          / >
         </View>
       )
     } else {
