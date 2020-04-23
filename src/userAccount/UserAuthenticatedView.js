@@ -1,5 +1,4 @@
 import React, { Component }from 'react'
-import { StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialCommunityIcons, MaterialIcons, Ionicons } from '@expo/vector-icons'
