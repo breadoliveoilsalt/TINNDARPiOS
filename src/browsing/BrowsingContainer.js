@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
+import { Linking } from 'expo'
 import { getItemsToBrowse } from '../api/apiRequests'
 import { getToken } from '../userAccount/tokenActions'
 import SwipeableImage from './SwipeableImage'
+import UserAccountButton from '../userAccount/UserAccountButton'
 
 class BrowsingContainer extends Component {
 
@@ -12,17 +14,8 @@ class BrowsingContainer extends Component {
       token: null,
       itemsToBrowse: null,
       messages: [],
-      messagesModalVisible: false,
-      backgroundColor: {backgroundColor: "red"}
+      messagesModalVisible: false
     }
-  }
-
-  sufficientRightSwipe(screenWidth, xAxisVelocity, xAxisDistance) {
-    return xAxisVelocity >= 0.5 || xAxisDistance >= 0.5 * screenWidth
-  }
-
-  sufficientLeftSwipe(screenWidth, xAxisVelocity, xAxisDistance) {
-    return xAxisVelocity <= -0.5 || xAxisDistance <= -0.5 * screenWidth
   }
 
   componentDidMount() {
@@ -33,22 +26,15 @@ class BrowsingContainer extends Component {
       .catch(() => console.log("There was a problem getting the items to browse"))
   }
 
+  // $$ finish this
+  openLink(url) {
+    Linking.openURL(url)
+  }
+
   render() {
     //$$getItemsToBrowse only requires {token: token} as params
-    if (this.state.itemsToBrowse) {
-      return (
-        <View style={{...styles.container, ...this.state.backgroundColor}} >
-          <Text>Browsing Container</Text>
 
-          <SwipeableImage 
-            style={styles.image}
-            source={this.state.itemsToBrowse[0].imageURL}
-            rightSwipeAction={() => this.setState({backgroundColor: { backgroundColor: "yellow" }})}
-            leftSwipeAction={() => this.setState({backgroundColor: { backgroundColor: "blue" }})}
-          / >
-        </View>
-      )
-    } else {
+    if (!this.state.itemsToBrowse) {
       return (
         <View style={styles.container} >
           <ActivityIndicator size="large" color="#FFDD1F" />
@@ -56,6 +42,23 @@ class BrowsingContainer extends Component {
       )
     }
 
+    const currentItem = this.state.itemsToBrowse[0]
+
+    return (
+      <View style={{...styles.container, ...this.state.backgroundColor}} >
+        <Text style={{...styles.text, fontWeight: "bold", fontSize: 40}}>{currentItem.name}</Text>
+        <Text style={styles.text}>{currentItem.description}</Text>
+        <Text style={styles.text}>${currentItem.price}</Text>
+        <UserAccountButton buttonText="Click for More Info" action={() => this.openLink(currentItem.moreInfoURL)} />
+        <SwipeableImage 
+          style={styles.image}
+          source={this.state.itemsToBrowse[0].imageURL}
+          // fix the actions below
+          rightSwipeAction={() => this.setState({backgroundColor: { backgroundColor: "yellow" }})}
+          leftSwipeAction={() => this.setState({backgroundColor: { backgroundColor: "blue" }})}
+        />
+      </View>
+    )
   }
 }
 
@@ -68,9 +71,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  text: {
+    color: "#FFDD1F",
+    fontSize: 25,
+    textAlign: "center",
+    margin: "1%"
+  },
   image: {
     height: 250,
     width: 250,
-    margin: "5%",
+    marginTop: "10%",
   }
 })
