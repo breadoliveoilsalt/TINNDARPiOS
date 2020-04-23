@@ -44,7 +44,7 @@ describe("<BrowsingContainer />", () => {
 
   const getDeeplyRenderedText = (wrapper) => {
     const textNodes = wrapper.find(Text)
-    return textNodes.map(node => node.props().children).flat()
+    return textNodes.map(node => node.props().children).flat().join()
   }
 
   it("renders an <ActivityIndicator /> if the items have not been populated", () => {
@@ -84,4 +84,18 @@ describe("<BrowsingContainer />", () => {
     expect(swipeableImage.props().source).toEqual(mockItemsData[0].imageURL)
   })
 
+  it("renders instructions on how to make a decision about an item", () => {
+    wrapper.setState({itemsToBrowse: mockItemsData})
+    const renderedText = getDeeplyRenderedText(wrapper)
+    
+    expect(renderedText).toContain("Swipe image to decide")
+  })
+
+  it("alerts the user when there are no items left to browse", () => {
+    wrapper.setState({itemsToBrowse: []})
+    const renderedText = getDeeplyRenderedText(wrapper)
+
+    expect(renderedText).toContain("There are no further items to browse")
+  })
+  
 })

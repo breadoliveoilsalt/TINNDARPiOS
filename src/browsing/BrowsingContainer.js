@@ -18,6 +18,7 @@ class BrowsingContainer extends Component {
       messages: [],
       messagesModalVisible: false
     }
+    // this.redirectToUserHome = this.redirectToUserHome.bind(this)
   }
 
   componentDidMount() {
@@ -36,7 +37,11 @@ class BrowsingContainer extends Component {
     return this.state.itemsToBrowse[0]
   }
 
-  navigateToHome
+  // redirectToUserHome() {
+  //   // this.setState({messagesModalVisible: true})
+  //   this.props.navigation.navigate("Home")
+  // }
+
   render() {
     //$$getItemsToBrowse only requires {token: token} as params
 
@@ -47,8 +52,26 @@ class BrowsingContainer extends Component {
         </View>
       )
     } 
-    
-    // else if (this.state.items.length === 0)
+
+    if (this.state.itemsToBrowse.length === 0) {
+      return (
+        <View style={styles.container}>
+          <Text style={{...styles.text, fontWeight: "bold"}}>There are no further items to browse!</Text>
+        </View>
+      )
+    }
+
+    // if (this.state.itemsToBrowse.length === 0) {
+    //   return (
+    //     <View style={styles.container}>
+    //       <MessagesModal 
+    //         visible={this.state.messagesModalVisible} 
+    //         messages={["There are no more items to browse!"]} 
+    //         onClose={this.redirectToUserHome} 
+    //       />
+    //     </View>
+    //   )
+    // }
 
     const currentItem = this.state.itemsToBrowse[0]
 
@@ -63,7 +86,7 @@ class BrowsingContainer extends Component {
         <SwipeableImage 
           style={styles.image}
           source={this.state.itemsToBrowse[0].imageURL}
-          // fix the actions below
+          // $$ fix the actions below
           rightSwipeAction={() => this.setState({backgroundColor: { backgroundColor: "yellow" }})}
           leftSwipeAction={() => this.setState({backgroundColor: { backgroundColor: "blue" }})}
         />
@@ -77,11 +100,6 @@ class BrowsingContainer extends Component {
           <MaterialCommunityIcons name={"arrow-right-bold"} size={45} color={styles.textDecision.color} />
         </View>
 
-        <MessagesModal 
-          visible={this.state.messagesModalVisible} 
-          messages={this.state.messages} 
-          onClose={() => this.hideMessages()} 
-        />
       </View>
     )
   }

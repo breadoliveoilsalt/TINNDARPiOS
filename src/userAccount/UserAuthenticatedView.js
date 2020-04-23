@@ -21,16 +21,14 @@ class UserAuthenticatedView extends Component {
           initialRouteName={"Home"}
           screenOptions={({ route }) => ({
             tabBarIcon: ({ color }) => {
-              if (route.name === 'Home') {
-                return <MaterialCommunityIcons name={"home-account"} size={33} color={color} />;
+              if (route.name === "Home") {
+                return <MaterialCommunityIcons name={"home-account"} size={33} color={color} />
               } else if (route.name == "Browse") {
-                return <MaterialCommunityIcons name={"thumbs-up-down"} size={25} color={color} />;
-              } else if (route.name === 'Compare') {
-                return <MaterialIcons name={"compare-arrows"} size={40} color={color} />;
+                return <MaterialCommunityIcons name={"thumbs-up-down"} size={25} color={color} />
+              } else if (route.name === "Compare") {
+                return <MaterialIcons name={"compare-arrows"} size={40} color={color} />
               }
-
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
+            }
           })}
           tabBarOptions={{
               activeTintColor: "black",
@@ -42,7 +40,7 @@ class UserAuthenticatedView extends Component {
                 paddingBottom: 5
               }
           }}
-          >
+        >
           <Tab.Screen name="Home">
             {props => <UserHome {...props} signOutOfApp={this.props.signOutOfApp} />}
           </Tab.Screen>
