@@ -46,6 +46,7 @@ class SwipeableImage extends Component {
         source={{ uri: this.props.source }}
         style={{ transform: [{ translateX: this.translateX }], ...this.props.style }}
         {...this.panResponder.panHandlers}
+        onLoad={() => this.translateX.setValue(0)}
       />
     )
   }

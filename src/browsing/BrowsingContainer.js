@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, ActivityIndicator, TouchableHighlight } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { openURL } from '../api/linkingWrapper'
 import { getItemsToBrowse, postBrowsingDecision } from '../api/apiRequests'
@@ -21,6 +21,7 @@ class BrowsingContainer extends Component {
     this.handleLike = this.handleLike.bind(this)
     this.handleNope = this.handleNope.bind(this)
     this.hideMessages = this.hideMessages.bind(this)
+    this.getCurrentItem = this.getCurrentItem.bind(this)
   }
 
   componentDidMount() {
@@ -84,8 +85,7 @@ class BrowsingContainer extends Component {
   }
 
   advanceToNextItem() {
-    [firstItem, ...remainingItems] = this.state.itemsToBrowse
-    this.setState({itemsToBrowse: remainingItems})
+    this.setState({itemsToBrowse: this.state.itemsToBrowse.slice(1)})
   }
 
   render() {
@@ -125,11 +125,15 @@ class BrowsingContainer extends Component {
         <Text style={styles.text}>Swipe image to decide</Text>
 
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-          <MaterialCommunityIcons name={"arrow-left-bold"} size={45} color={"maroon"}/>
+          <TouchableHighlight onPress={() => this.handleNope()}>
+            <MaterialCommunityIcons name={"arrow-left-bold"} size={45} color={"maroon"}/>
+          </TouchableHighlight>
           <Text style={{...styles.textDecision}}>Nope</Text>
           <Text style={{...styles.textDecision}}>              </Text>
           <Text style={{...styles.textDecision}}>Like</Text>
-          <MaterialCommunityIcons name={"arrow-right-bold"} size={45} color={"darkgreen"} />
+          <TouchableHighlight onPress={() => this.handleLike()}>
+            <MaterialCommunityIcons name={"arrow-right-bold"} size={45} color={"darkgreen"} />
+          </TouchableHighlight>
         </View>
 
         <MessagesModal
