@@ -18,10 +18,13 @@ class BrowsingContainer extends Component {
       messages: [],
       messagesModalVisible: false
     }
+    this.handleLike = this.handleLike.bind(this)
+    this.handleNope = this.handleNope.bind(this)
+    this.hideMessages = this.hideMessages.bind(this)
   }
 
   componentDidMount() {
-    getToken()
+    return getToken()
       .then(token => this.setState({token: token}))
       .then(() => getItemsToBrowse({token: this.state.token}))
       .then(items => this.setState({itemsToBrowse: items}))
@@ -32,12 +35,57 @@ class BrowsingContainer extends Component {
     openURL(url)
   }
 
-  handleLike(currentItem) {
-    // {
-    //   token: this.state.token,
-    //   item_id: currentItem.id,
-    //   liked: "true"
-    // }
+  getCurrentItem() {
+    return this.state.itemsToBrowse[0]
+  }
+
+  handleLike(currentItem = this.getCurrentItem()) {
+    const params = {
+      token: this.state.token,
+      item_id: currentItem.id,
+      liked: "true"
+    }
+    return this.postDecision(params)
+  }
+
+  handleNope(currentItem = this.getCurrentItem()) {
+    const params = {
+      token: this.state.token,
+      item_id: currentItem.id,
+      liked: "false"
+    }
+    return this.postDecision(params)
+  }
+
+  postDecision(params) {
+    return postBrowsingDecision(params)
+      .then((response) => {
+        if (response.hasOwnProperty("errors")) {
+          this.showMessages(response.errors)
+        } else {
+          this.advanceToNextItem()
+        }
+      })
+      .catch(error => this.showMessages([error]))
+  }
+
+  showMessages(messages) {
+    this.setState({
+      messages: messages,
+      messagesModalVisible: true
+    })
+  }
+
+  hideMessages() {
+    this.setState({
+      messages: [],
+      messagesModalVisible: false
+    })
+  }
+
+  advanceToNextItem() {
+    [firstItem, ...remainingItems] = this.state.itemsToBrowse
+    this.setState({itemsToBrowse: remainingItems})
   }
 
   render() {
@@ -57,7 +105,7 @@ class BrowsingContainer extends Component {
       )
     }
 
-    const currentItem = this.state.itemsToBrowse[0]
+    const currentItem = this.getCurrentItem()
 
     return (
       <View style={{...styles.container}} >
@@ -70,9 +118,8 @@ class BrowsingContainer extends Component {
         <SwipeableImage 
           style={styles.image}
           source={this.state.itemsToBrowse[0].imageURL}
-          // $$ fix the actions below
-          rightSwipeAction={() => this.setState({backgroundColor: { backgroundColor: "yellow" }})}
-          leftSwipeAction={() => this.setState({backgroundColor: { backgroundColor: "blue" }})}
+          rightSwipeAction={() => this.handleLike(currentItem)}
+          leftSwipeAction={() => this.handleNope(currentItem)}
         />
 
         <Text style={styles.text}>Swipe image to decide</Text>
@@ -84,6 +131,12 @@ class BrowsingContainer extends Component {
           <Text style={{...styles.textDecision}}>Like</Text>
           <MaterialCommunityIcons name={"arrow-right-bold"} size={45} color={"darkgreen"} />
         </View>
+
+        <MessagesModal
+          visible={this.state.messagesModalVisible}
+          messages={this.state.messages}
+          onClose={this.hideMessages}
+        />
 
       </View>
     )

@@ -73,7 +73,7 @@ const cherrypickItemData = (rawItemData, processedData) => {
     price: rawItemData.price,
     moreInfoURL: rawItemData.more_info_url
   }
-
+  
   processedData.push(newObject)
 }
 
