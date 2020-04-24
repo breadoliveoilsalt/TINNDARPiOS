@@ -6,19 +6,19 @@ export const wakeUpAPI = () => {
 
 export const logIn = (credentials) => {
   const url = apiBaseURL + "/log_in"
-  const params = formatParams(credentials)
+  const params = formatUserParams(credentials)
   return fetchWrapper.post(url, params)
     .then(rawData => processAuthenticationResponse(rawData))
 }
 
 export const signUp = (credentials) => {
   const url = apiBaseURL + "/sign_up"
-  const params = formatParams(credentials)
+  const params = formatUserParams(credentials)
   return fetchWrapper.post(url, params)
     .then(rawData => processAuthenticationResponse(rawData))
 }
 
-const formatParams = (credentials) => {
+const formatUserParams = (credentials) => {
   return { user: {
     ...credentials,
     persistent_token: true 
@@ -47,7 +47,7 @@ const processAuthenticationResponse = (rawData) => {
 
 export const getItemsToBrowse = (params) => {
   const url = apiBaseURL + "/browsing"
-  const strongParams = { browsing: params }
+  const strongParams = formatBrowsingParams(params)
   return fetchWrapper.getWithParams(url, strongParams)
     .then(rawData => processItemData(rawData))
 }
@@ -75,4 +75,24 @@ const cherrypickItemData = (rawItemData, processedData) => {
   }
 
   processedData.push(newObject)
+}
+
+export const postBrowsingDecision = (params) => {
+  const url = apiBaseURL + "/browsing"
+  const strongParams = formatBrowsingParams(params)
+  return fetchWrapper.post(url, strongParams)
+    .then(rawData => processDecisionResponse(rawData))
+}
+
+const formatBrowsingParams = (params) => {
+  return {browsing: params}
+}
+
+const processDecisionResponse = (rawData) => {
+  const decisionData = rawData.data
+  if (decisionData.hasOwnProperty("errors")) {
+    return { errors: decisionData.errors }
+  } else {
+    return {}
+  }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { openURL } from '../api/linkingWrapper'
-import { getItemsToBrowse } from '../api/apiRequests'
+import { getItemsToBrowse, postBrowsingDecision } from '../api/apiRequests'
 import { getToken } from '../userAccount/tokenActions'
 import SwipeableImage from './SwipeableImage'
 import ActionButton from '../components/ActionButton'
@@ -32,13 +32,15 @@ class BrowsingContainer extends Component {
     openURL(url)
   }
 
-  currentItem() {
-    return this.state.itemsToBrowse[0]
+  handleLike(currentItem) {
+    // {
+    //   token: this.state.token,
+    //   item_id: currentItem.id,
+    //   liked: "true"
+    // }
   }
 
   render() {
-    //$$getItemsToBrowse only requires {token: token} as params
-
     if (!this.state.itemsToBrowse) {
       return (
         <View style={styles.container} >

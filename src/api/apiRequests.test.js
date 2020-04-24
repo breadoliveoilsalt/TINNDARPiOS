@@ -292,3 +292,71 @@ describe("getItemsToBrowse", () => {
   })
 
 })
+
+describe("postBrowsingDecision()", () => {
+
+  const params = {
+    token: "xyz",
+    item_id: 1,
+    liked: "true"
+  }
+
+  beforeEach(() => {
+    jest.spyOn(fetchWrapper, "post").mockResolvedValue({ data: {} })
+  })
+
+  it("calls the post() method of the fetchWrapper", () => {
+    apiRequests.postBrowsingDecision(params)
+
+    expect(fetchWrapper.post).toHaveBeenCalledTimes(1)
+  })
+
+  it("calls the post() method with the cofigured baseURL to /browsing", () => {
+    apiRequests.postBrowsingDecision(params)
+
+    const expectedURL = apiBaseURL + "/browsing"
+    expect(fetchWrapper.post.mock.calls[0][0]).toEqual(expectedURL)
+  })
+
+  it("passes the params to the post() method of fetchwapper after prefixing a 'browsing' key", () => {
+    apiRequests.postBrowsingDecision(params)
+
+    const expectedParams = { browsing: params }
+    expect(fetchWrapper.post.mock.calls[0][1]).toEqual(expectedParams)
+  })
+
+  it("parses the return data to return a simple object with no errors if the data returns no errors", () => {
+    const mockData = {
+      headers: "stuff",
+      data: {},
+      metaData: {
+        statusCode: 200
+      }
+    }
+    jest.spyOn(fetchWrapper, "post").mockResolvedValue(mockData)
+
+    return apiRequests.postBrowsingDecision(params).then(result => {
+      expect(result.errors).toBeUndefined()
+    })
+
+  })
+
+  it("parses the return data to return a simple object with an error field if the data returns errors", () => {
+    mockData = {
+      headers: "stuff",
+      data: {
+        errors: "Something went wrong"
+      },
+      metaData: {
+        statusCode: 200
+      }
+    }
+    fetchWrapper.post = jest.fn()
+    fetchWrapper.post.mockReturnValueOnce(Promise.resolve(mockData))
+
+    return apiRequests.postBrowsingDecision(params).then(result => {
+      expect(result.errors).toEqual(mockData.data.errors)
+    })
+  })
+
+})
