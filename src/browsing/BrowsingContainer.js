@@ -109,8 +109,22 @@ class BrowsingContainer extends Component {
 
     return (
       <View style={{...styles.container}} >
-        <Text style={{...styles.text, fontWeight: "bold", fontSize: 40}}>{currentItem.name}</Text>
-        <Text style={styles.text}>{currentItem.description}</Text>
+        <Text 
+          adjustsFontSizeToFit
+          numberOfLines={1}
+          style={{...styles.text, fontWeight: "bold", fontSize: 40}}
+        >
+          {currentItem.name}
+        </Text>
+
+        <Text 
+          style={{...styles.text}} 
+          adjustsFontSizeToFit
+          numberOfLines={1}
+        >
+          {currentItem.description}
+        </Text>
+
         <Text style={styles.text}>${currentItem.price}</Text>
 
         <ActionButton buttonText="Click for More Info" action={() => this.openLink(currentItem.moreInfoURL)} />
@@ -160,7 +174,9 @@ const styles = StyleSheet.create({
     color: "#FFDD1F",
     fontSize: 25,
     textAlign: "center",
-    marginTop: "1%"
+    marginTop: "1%",
+    marginLeft: "3%",
+    marginRight: "3%"
   },
   textDecision: {
     color: "#FFDD1F",
