@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, Text, TextInput, StyleSheet } from 'react-native'
 import { logIn, signUp } from '../api/apiRequests'
-import { saveToken } from './tokenActions'
 import Logo from '../components/Logo'
+import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 
 class ProvideCredentialsView extends Component {
@@ -25,10 +25,7 @@ class ProvideCredentialsView extends Component {
     return callback(credentials)
       .then(data => {
         if (data.loggedIn) {
-          saveToken(data.token)
-          // $$ Remove below once logged in home screen implemented 
-          const messages = ["You are logged in with token", data.token]
-          this.showMessages(messages)
+          this.props.logInToApp(data.token)
         } else if (!data.loggedIn) {
           const messages = ["Sorry, there were some errors:", ...data.errors]
           this.showMessages(messages)
@@ -85,19 +82,8 @@ class ProvideCredentialsView extends Component {
           autoCapitalize={"none"}
         />
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.handleAPIRequest(logIn)}
-        >
-          <Text style={styles.buttonText}>Log In</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.handleAPIRequest(signUp)}
-        >
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
+        <ActionButton action={() => this.handleAPIRequest(logIn)} buttonText={"Log In"} />
+        <ActionButton action={() => this.handleAPIRequest(signUp)} buttonText={"Sign Up"} />
 
         <MessagesModal 
           visible={this.state.messagesModalVisible} 
@@ -135,60 +121,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: "80%",
     backgroundColor: "#fff"
-  },
-  button: {
-    width: "60%"
-  },
-  buttonText: {
-    marginTop: "7%",
-    paddingTop: "2%",
-    paddingBottom: "2%",
-    paddingLeft: "10%",
-    paddingRight: "10%",
-    backgroundColor: "#FFDD1F",
-    fontSize: 20,
-    color: "#3484F2",
-    borderColor: "#808080",
-    borderWidth: 2,
-    textAlign: "center"
-  },
-  centeredModal: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "lightgrey",
-    borderRadius: 20,
-    borderColor: "black",
-    borderWidth: 2,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  },
-  modalCloseButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-   backgroundColor: "#2196F3" 
-  },
-  modalCloseButtonText: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
   }
 })
