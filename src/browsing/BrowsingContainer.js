@@ -18,7 +18,6 @@ class BrowsingContainer extends Component {
       messages: [],
       messagesModalVisible: false
     }
-    // this.redirectToUserHome = this.redirectToUserHome.bind(this)
   }
 
   componentDidMount() {
@@ -36,11 +35,6 @@ class BrowsingContainer extends Component {
   currentItem() {
     return this.state.itemsToBrowse[0]
   }
-
-  // redirectToUserHome() {
-  //   // this.setState({messagesModalVisible: true})
-  //   this.props.navigation.navigate("Home")
-  // }
 
   render() {
     //$$getItemsToBrowse only requires {token: token} as params
@@ -60,18 +54,6 @@ class BrowsingContainer extends Component {
         </View>
       )
     }
-
-    // if (this.state.itemsToBrowse.length === 0) {
-    //   return (
-    //     <View style={styles.container}>
-    //       <MessagesModal 
-    //         visible={this.state.messagesModalVisible} 
-    //         messages={["There are no more items to browse!"]} 
-    //         onClose={this.redirectToUserHome} 
-    //       />
-    //     </View>
-    //   )
-    // }
 
     const currentItem = this.state.itemsToBrowse[0]
 
@@ -94,10 +76,11 @@ class BrowsingContainer extends Component {
         <Text style={styles.text}>Swipe image to decide</Text>
 
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-          <MaterialCommunityIcons name={"arrow-left-bold"} size={45} color={styles.textDecision.color} />
+          <MaterialCommunityIcons name={"arrow-left-bold"} size={45} color={"maroon"}/>
           <Text style={{...styles.textDecision}}>Nope</Text>
+          <Text style={{...styles.textDecision}}>              </Text>
           <Text style={{...styles.textDecision}}>Like</Text>
-          <MaterialCommunityIcons name={"arrow-right-bold"} size={45} color={styles.textDecision.color} />
+          <MaterialCommunityIcons name={"arrow-right-bold"} size={45} color={"darkgreen"} />
         </View>
 
       </View>
