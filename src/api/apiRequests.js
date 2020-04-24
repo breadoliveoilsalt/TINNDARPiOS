@@ -49,32 +49,16 @@ export const getItemsToBrowse = (params) => {
   const url = apiBaseURL + "/browsing"
   const strongParams = formatBrowsingParams(params)
   return fetchWrapper.getWithParams(url, strongParams)
-    .then(rawData => processItemData(rawData))
+    .then(rawData => processBrowsingData(rawData))
 }
 
-export const processItemData = (rawData) => {
+export const processBrowsingData = (rawData) => {
   const parsedData = rawData.data
   if (parsedData.errors) {
     return {errors: parsedData.errors}
   } else {
-    const rawItemListData = rawData.data.items
-    let processedData = []
-    rawItemListData.forEach(rawItemData => cherrypickItemData(rawItemData, processedData))
-    return processedData
+    return {items: cherrypickItemData(parsedData.items)}
   }
-}
-
-const cherrypickItemData = (rawItemData, processedData) => {
-  const newObject = {
-    id: rawItemData.id,
-    name: rawItemData.name,
-    imageURL: rawItemData.image_url,
-    description: rawItemData.description,
-    price: rawItemData.price,
-    moreInfoURL: rawItemData.more_info_url
-  }
-  
-  processedData.push(newObject)
 }
 
 export const postBrowsingDecision = (params) => {
@@ -91,8 +75,42 @@ const formatBrowsingParams = (params) => {
 const processDecisionResponse = (rawData) => {
   const decisionData = rawData.data
   if (decisionData.hasOwnProperty("errors")) {
-    return { errors: decisionData.errors }
+    return {errors: decisionData.errors}
   } else {
     return {}
   }
+}
+
+export const getCommonItems = (params) => {
+  const url = apiBaseURL + "/comparing"
+  const strongParams = {
+    comparing: params
+  }
+  return fetchWrapper.getWithParams(url, strongParams)
+    .then(rawData => processComparingData(rawData))
+}
+
+const processComparingData = (rawData) => {
+  if (rawData.data.hasOwnProperty("errors")) {
+    return {errors: rawData.data.errors}
+  } else {
+    return {
+      userEmail: rawData.data.user_email,
+      successfulComparisonTo: rawData.data.successful_comparison_to,
+      commonItems: cherrypickItemData(rawData.data.common_items)
+    }
+  }
+}
+
+const cherrypickItemData = (rawListOfItems) => {
+  return rawListOfItems.map(rawItemData => {
+    return {
+      id: rawItemData.id,
+      name: rawItemData.name,
+      imageURL: rawItemData.image_url,
+      description: rawItemData.description,
+      price: rawItemData.price,
+      moreInfoURL: rawItemData.more_info_url
+    }
+  })
 }

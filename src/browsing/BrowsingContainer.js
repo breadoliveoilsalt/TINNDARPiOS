@@ -28,7 +28,8 @@ class BrowsingContainer extends Component {
     return getToken()
       .then(token => this.setState({token: token}))
       .then(() => getItemsToBrowse({token: this.state.token}))
-      .then(items => this.setState({itemsToBrowse: items}))
+      // $$ Check updata below works, 
+      .then(itemsData => this.setState({itemsToBrowse: itemsData.items}))
       .catch(() => console.log("There was a problem getting the items to browse"))
   }
 
