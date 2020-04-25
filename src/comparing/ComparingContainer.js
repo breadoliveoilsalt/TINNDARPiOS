@@ -21,6 +21,7 @@ class ComparingContainer extends Component {
       messagesModalVisible: false
     }
     this.handleComparison = this.handleComparison.bind(this)
+    this.hideMessages = this.hideMessages.bind(this)
   }
 
   componentDidMount() {
@@ -37,12 +38,11 @@ class ComparingContainer extends Component {
   handleComparison() {
     const params = {
       token: this.state.token,
-      compare_to: "betty@betty.com"
+      compare_to: "blkjd@lkj.com"
       // compare_to: this.state.compareTo
     }
     return getCommonItems(params)
       .then(response => {
-        // $$ debugger
         if (response.hasOwnProperty("errors")) {
           this.showMessages(response.errors)
         } else {
