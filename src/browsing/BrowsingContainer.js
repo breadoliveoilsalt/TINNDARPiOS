@@ -28,7 +28,6 @@ class BrowsingContainer extends Component {
     return getToken()
       .then(token => this.setState({token: token}))
       .then(() => getItemsToBrowse({token: this.state.token}))
-      // $$ Check updata below works, 
       .then(itemsData => this.setState({itemsToBrowse: itemsData.items}))
       .catch(() => console.log("There was a problem getting the items to browse"))
   }
@@ -109,7 +108,7 @@ class BrowsingContainer extends Component {
     const currentItem = this.getCurrentItem()
 
     return (
-      <View style={{...styles.container}} >
+      <View style={styles.container} >
         <Text 
           adjustsFontSizeToFit
           numberOfLines={1}
@@ -119,7 +118,7 @@ class BrowsingContainer extends Component {
         </Text>
 
         <Text 
-          style={{...styles.text}} 
+          style={styles.text} 
           adjustsFontSizeToFit
           numberOfLines={1}
         >
@@ -143,9 +142,9 @@ class BrowsingContainer extends Component {
           <TouchableHighlight onPress={() => this.handleNope()}>
             <MaterialCommunityIcons name={"arrow-left-bold"} size={45} color={"maroon"}/>
           </TouchableHighlight>
-          <Text style={{...styles.textDecision}}>Nope</Text>
-          <Text style={{...styles.textDecision}}>              </Text>
-          <Text style={{...styles.textDecision}}>Like</Text>
+          <Text style={styles.textDecision}>Nope</Text>
+          <Text style={styles.textDecision}>              </Text>
+          <Text style={styles.textDecision}>Like</Text>
           <TouchableHighlight onPress={() => this.handleLike()}>
             <MaterialCommunityIcons name={"arrow-right-bold"} size={45} color={"darkgreen"} />
           </TouchableHighlight>

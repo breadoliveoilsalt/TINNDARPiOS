@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, ActivityIndicator, TouchableHighlight } from 'react-native'
 // import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { openURL } from '../api/linkingWrapper'
-import { getItemsToBrowse, postBrowsingDecision } from '../api/apiRequests'
+import { getCommonItems } from '../api/apiRequests'
 import { getToken } from '../userAccount/tokenActions'
 // import SwipeableImage from './SwipeableImage'
 import ActionButton from '../components/ActionButton'
@@ -14,8 +14,9 @@ class ComparingContainer extends Component {
     super(props)
     this.state = {
       token: null,
-      commonItems: [],
-      compareTo: null,
+      attemptCompareTo: null,
+      successfulComparisonTo: null,
+      commonItems: null,
       messages: [],
       messagesModalVisible: false
     }
@@ -25,6 +26,7 @@ class ComparingContainer extends Component {
   componentDidMount() {
     return getToken()
       .then(token => this.setState({ token: token }))
+      .then(() => this.handleComparison())
       .catch(() => console.log("There was a problem getting the token for ComparisonContainer"))
   }
 
@@ -35,22 +37,21 @@ class ComparingContainer extends Component {
   handleComparison() {
     const params = {
       token: this.state.token,
-      compare_to: this.state.compareTo
+      compare_to: "betty@betty.com"
+      // compare_to: this.state.compareTo
     }
-    return this.getComparison(params)
-  }
-
-
-  getComparison(params) {
-    // return postBrowsingDecision(params)
-    //   .then((response) => {
-    //     if (response.hasOwnProperty("errors")) {
-    //       this.showMessages(response.errors)
-    //     } else {
-    //       this.advanceToNextItem()
-    //     }
-    //   })
-    //   .catch(error => this.showMessages([error]))
+    return getCommonItems(params)
+      .then(response => {
+        // $$ debugger
+        if (response.hasOwnProperty("errors")) {
+          this.showMessages(response.errors)
+        } else {
+          this.setState({
+            successfulComparisonTo: response.successfulComparisonTo,
+            commonItems: response.commonItems
+          })
+        }
+      })
   }
 
   showMessages(messages) {
@@ -68,27 +69,23 @@ class ComparingContainer extends Component {
   }
 
   render() {
-    if (!this.state.itemsToBrowse) {
-      return (
-        <View style={styles.container} >
-          <ActivityIndicator size="large" color="#FFDD1F" />
-        </View>
-      )
-    }
+    // $$ handle loader somehow
+    // if (!this.state.itemsToBrowse) {
+    //   return (
+    //     <View style={styles.container} >
+    //       <ActivityIndicator size="large" color="#FFDD1F" />
+    //     </View>
+    //   )
+    // }
 
-    if (this.state.itemsToBrowse.length === 0) {
-      return (
-        <View style={styles.container}>
-          <Text style={{ ...styles.text, fontWeight: "bold" }}>There are no further items to browse!</Text>
-        </View>
-      )
-    }
-
-    const currentItem = this.getCurrentItem()
+    // const currentItem = this.getCurrentItem()
 
     return (
-      <View style={{ ...styles.container }} >
-        <Text
+      <View style={styles.container} >
+        <Text>
+          {this.state.commonItems ? JSON.stringify(this.state.commonItems) : null }
+        </Text>
+        {/* <Text
           adjustsFontSizeToFit
           numberOfLines={1}
           style={{ ...styles.text, fontWeight: "bold", fontSize: 40 }}
@@ -127,7 +124,7 @@ class ComparingContainer extends Component {
           <TouchableHighlight onPress={() => this.handleLike()}>
             <MaterialCommunityIcons name={"arrow-right-bold"} size={45} color={"darkgreen"} />
           </TouchableHighlight>
-        </View>
+        </View> */}
 
         <MessagesModal
           visible={this.state.messagesModalVisible}
