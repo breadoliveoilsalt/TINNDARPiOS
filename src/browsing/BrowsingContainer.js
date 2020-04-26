@@ -131,7 +131,7 @@ class BrowsingContainer extends Component {
 
         <SwipeableImage 
           style={styles.image}
-          source={this.state.itemsToBrowse[0].imageURL}
+          source={currentItem.imageURL}
           rightSwipeAction={() => this.handleLike(currentItem)}
           leftSwipeAction={() => this.handleNope(currentItem)}
         />

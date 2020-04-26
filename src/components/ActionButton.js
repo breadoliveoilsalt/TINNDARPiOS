@@ -5,7 +5,7 @@ const ActionButton = (props) => {
   const { action, buttonText } = props
   return (
     <TouchableOpacity
-      style={styles.button}
+      style={{...styles.button}}
       onPress={action}
     >
       <Text style={styles.buttonText}>{buttonText}</Text>

@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, ActivityIndicator, TouchableHighlight } from 'react-native'
-// import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { StyleSheet, Text, View, TextInput, FlatList, Keyboard } from 'react-native'
 import { openURL } from '../api/linkingWrapper'
 import { getCommonItems } from '../api/apiRequests'
 import { getToken } from '../userAccount/tokenActions'
-// import SwipeableImage from './SwipeableImage'
 import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
+import ItemDisplay from './ItemDisplay'
 
 class ComparingContainer extends Component {
 
@@ -14,8 +13,8 @@ class ComparingContainer extends Component {
     super(props)
     this.state = {
       token: null,
-      attemptCompareTo: null,
-      successfulComparisonTo: null,
+      attemptCompareTo: "",
+      successfulComparisonTo: "",
       commonItems: null,
       messages: [],
       messagesModalVisible: false
@@ -27,8 +26,7 @@ class ComparingContainer extends Component {
   componentDidMount() {
     return getToken()
       .then(token => this.setState({ token: token }))
-      .then(() => this.handleComparison())
-      .catch(() => console.log("There was a problem getting the token for ComparisonContainer"))
+      .catch(error => this.showMessages(["There was a problem getting token", error.message]))
   }
 
   openLink(url) {
@@ -36,10 +34,10 @@ class ComparingContainer extends Component {
   }
 
   handleComparison() {
+    Keyboard.dismiss()
     const params = {
       token: this.state.token,
-      compare_to: "blkjd@lkj.com"
-      // compare_to: this.state.compareTo
+      compare_to: this.state.attemptCompareTo.trim()
     }
     return getCommonItems(params)
       .then(response => {
@@ -52,6 +50,7 @@ class ComparingContainer extends Component {
           })
         }
       })
+      .catch(error => this.showMessages([error.message]))
   }
 
   showMessages(messages) {
@@ -69,62 +68,50 @@ class ComparingContainer extends Component {
   }
 
   render() {
-    // $$ handle loader somehow
-    // if (!this.state.itemsToBrowse) {
-    //   return (
-    //     <View style={styles.container} >
-    //       <ActivityIndicator size="large" color="#FFDD1F" />
-    //     </View>
-    //   )
-    // }
-
-    // const currentItem = this.getCurrentItem()
 
     return (
       <View style={styles.container} >
-        <Text>
-          {this.state.commonItems ? JSON.stringify(this.state.commonItems) : null }
-        </Text>
-        {/* <Text
-          adjustsFontSizeToFit
-          numberOfLines={1}
-          style={{ ...styles.text, fontWeight: "bold", fontSize: 40 }}
-        >
-          {currentItem.name}
-        </Text>
 
-        <Text
-          style={{ ...styles.text }}
-          adjustsFontSizeToFit
-          numberOfLines={1}
-        >
-          {currentItem.description}
-        </Text>
+        <View style={styles.compareForm} >
+          <Text style={styles.text} >Enter the email of another user to see what items you both liked!</Text>
 
-        <Text style={styles.text}>${currentItem.price}</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder={"Enter email address"}
+            onChangeText={(text) => this.setState({attemptCompareTo: text})}
+            value={this.state.attemptCompareTo}
+            autoCapitalize={"none"}
+          />
 
-        <ActionButton buttonText="Click for More Info" action={() => this.openLink(currentItem.moreInfoURL)} />
+          <ActionButton action={this.handleComparison} buttonText={"Compare"} />
 
-        <SwipeableImage
-          style={styles.image}
-          source={this.state.itemsToBrowse[0].imageURL}
-          rightSwipeAction={() => this.handleLike(currentItem)}
-          leftSwipeAction={() => this.handleNope(currentItem)}
-        />
+          {this.state.successfulComparisonTo ? 
+              <Text 
+                style={styles.text} 
+                adjustsFontSizeToFit
+                numberOfLines={1}
+              >
+                Showing comparison to: {this.state.successfulComparisonTo}
+              </Text> 
+            : 
+              null
+          }
 
-        <Text style={styles.text}>Swipe image to decide</Text>
+        </View>
+        
+        <View style={styles.divider} />
 
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-          <TouchableHighlight onPress={() => this.handleNope()}>
-            <MaterialCommunityIcons name={"arrow-left-bold"} size={45} color={"maroon"} />
-          </TouchableHighlight>
-          <Text style={{ ...styles.textDecision }}>Nope</Text>
-          <Text style={{ ...styles.textDecision }}>              </Text>
-          <Text style={{ ...styles.textDecision }}>Like</Text>
-          <TouchableHighlight onPress={() => this.handleLike()}>
-            <MaterialCommunityIcons name={"arrow-right-bold"} size={45} color={"darkgreen"} />
-          </TouchableHighlight>
-        </View> */}
+        <View style={styles.itemList} >
+          {this.state.commonItems ? 
+              <FlatList 
+                data={this.state.commonItems}
+                keyExtractor={item => item.id}
+                renderItem={({item}) => <ItemDisplay item={item} />}
+              />
+            : 
+              null
+          }
+        </View>
 
         <MessagesModal
           visible={this.state.messagesModalVisible}
@@ -143,27 +130,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#3484F2",
-    justifyContent: "center",
     alignItems: "center",
   },
-  text: {
-    color: "#FFDD1F",
-    fontSize: 25,
-    textAlign: "center",
-    marginTop: "1%",
-    marginLeft: "3%",
-    marginRight: "3%"
+  compareForm: {
+    paddingTop: "5%",
+    width: "100%",
+    height: "40%",
+    alignItems: "center",
   },
-  textDecision: {
-    color: "#FFDD1F",
-    fontSize: 25,
-    fontWeight: "bold",
-    margin: "2%"
+  divider: {
+    width: "100%",
+    borderColor: "lightgrey",
+    borderWidth: 1 
   },
-  image: {
-    height: 250,
-    width: 250,
+  itemList: {
     marginTop: "5%",
+    height: "60%"
+  },
+  text: {
+    fontSize: 20,
+    margin: "3%",
+    textAlign: "center",
+    color: "#FFDD1F",
+    backgroundColor: "#3484F2"
+  },
+  textInput: {
+    margin: "1%",
+    padding: "2%",
+    textAlign: "center",
+    fontSize: 20,
+    backgroundColor: '#fff',
+    width: "80%",
+    backgroundColor: "#fff"
   }
 })
-
