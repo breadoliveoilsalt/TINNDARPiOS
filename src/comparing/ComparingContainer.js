@@ -83,7 +83,7 @@ class ComparingContainer extends Component {
             autoCapitalize={"none"}
           />
 
-          <ActionButton action={this.handleComparison} buttonText={"Compare"} />
+          <ActionButton action={this.handleComparison} buttonText={"Compare"} style={{button: styles.button, buttonText: styles.buttonText}} />
 
           {this.state.successfulComparisonTo ? 
               <Text 
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   compareForm: {
     paddingTop: "5%",
     width: "100%",
-    height: "40%",
+    height: "35%",
     alignItems: "center",
   },
   divider: {
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     height: "60%"
   },
   text: {
-    fontSize: 20,
+    fontSize: 15,
     margin: "3%",
     textAlign: "center",
     color: "#FFDD1F",
@@ -158,9 +158,14 @@ const styles = StyleSheet.create({
     margin: "1%",
     padding: "2%",
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 15,
     backgroundColor: '#fff',
     width: "80%",
     backgroundColor: "#fff"
+  },
+  button: {
+  },
+  buttonText: {
+    fontSize: 15
   }
 })

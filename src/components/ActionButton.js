@@ -3,14 +3,15 @@ import { Text, TouchableHighlight, StyleSheet } from 'react-native'
 
 const ActionButton = (props) => {
   const { action, buttonText } = props
+  const customStyles = props.style ? props.style : {}
   return (
     <TouchableHighlight
-      style={{...styles.button}}
+      style={{...styles.button, ...customStyles.button}}
       onPress={action}
       activeOpacity={0.6}
       underlayColor="lightgrey"
     >
-      <Text style={styles.buttonText}>{buttonText}</Text>
+      <Text style={{...styles.buttonText, ...customStyles.buttonText}}>{buttonText}</Text>
     </TouchableHighlight>
   )
 }
