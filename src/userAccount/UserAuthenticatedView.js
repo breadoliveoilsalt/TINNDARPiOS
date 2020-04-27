@@ -24,9 +24,9 @@ class UserAuthenticatedView extends Component {
               if (route.name === "Home") {
                 return <MaterialCommunityIcons name={"home-account"} size={33} color={color} />
               } else if (route.name == "Browse") {
-                return <MaterialCommunityIcons name={"thumbs-up-down"} size={25} color={color} />
+                return <MaterialIcons name={"compare-arrows"} size={33} color={color} />
               } else if (route.name === "Compare") {
-                return <MaterialIcons name={"compare-arrows"} size={40} color={color} />
+                return <MaterialCommunityIcons name={"playlist-check"} size={33} color={color} />
               }
             }
           })}
