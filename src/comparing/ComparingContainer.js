@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TextInput, FlatList, Keyboard } from 'react-native'
-import { openURL } from '../api/linkingWrapper'
 import { getCommonItems } from '../api/apiRequests'
 import { getToken } from '../userAccount/tokenActions'
 import ActionButton from '../components/ActionButton'
@@ -27,10 +26,6 @@ class ComparingContainer extends Component {
     return getToken()
       .then(token => this.setState({ token: token }))
       .catch(error => this.showMessages(["There was a problem getting token", error.message]))
-  }
-
-  openLink(url) {
-    openURL(url)
   }
 
   handleComparison() {
