@@ -50,7 +50,7 @@ describe("<BrowsingContainer />", () => {
 
     beforeEach(() => {
       jest.spyOn(tokenActions, "getToken").mockResolvedValue(userToken)
-      jest.spyOn(apiRequests, "getItemsToBrowse").mockResolvedValue(mockItemsData)
+      jest.spyOn(apiRequests, "getItemsToBrowse").mockResolvedValue({items: mockItemsData})
     })
 
     it("gets the user's token when it mounts", () => {

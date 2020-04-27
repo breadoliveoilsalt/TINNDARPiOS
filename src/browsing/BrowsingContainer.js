@@ -28,8 +28,8 @@ class BrowsingContainer extends Component {
     return getToken()
       .then(token => this.setState({token: token}))
       .then(() => getItemsToBrowse({token: this.state.token}))
-      .then(items => this.setState({itemsToBrowse: items}))
-      .catch(() => console.log("There was a problem getting the items to browse"))
+      .then(itemsData => this.setState({itemsToBrowse: itemsData.items}))
+      .catch(() => this.showMessages(["There was a problem getting the items to browse"]))
   }
 
   openLink(url) {
@@ -108,7 +108,7 @@ class BrowsingContainer extends Component {
     const currentItem = this.getCurrentItem()
 
     return (
-      <View style={{...styles.container}} >
+      <View style={styles.container} >
         <Text 
           adjustsFontSizeToFit
           numberOfLines={1}
@@ -118,7 +118,7 @@ class BrowsingContainer extends Component {
         </Text>
 
         <Text 
-          style={{...styles.text}} 
+          style={styles.text} 
           adjustsFontSizeToFit
           numberOfLines={1}
         >
@@ -131,7 +131,7 @@ class BrowsingContainer extends Component {
 
         <SwipeableImage 
           style={styles.image}
-          source={this.state.itemsToBrowse[0].imageURL}
+          source={currentItem.imageURL}
           rightSwipeAction={() => this.handleLike(currentItem)}
           leftSwipeAction={() => this.handleNope(currentItem)}
         />
@@ -142,9 +142,9 @@ class BrowsingContainer extends Component {
           <TouchableHighlight onPress={() => this.handleNope()}>
             <MaterialCommunityIcons name={"arrow-left-bold"} size={45} color={"maroon"}/>
           </TouchableHighlight>
-          <Text style={{...styles.textDecision}}>Nope</Text>
-          <Text style={{...styles.textDecision}}>              </Text>
-          <Text style={{...styles.textDecision}}>Like</Text>
+          <Text style={styles.textDecision}>Nope</Text>
+          <Text style={styles.textDecision}>              </Text>
+          <Text style={styles.textDecision}>Like</Text>
           <TouchableHighlight onPress={() => this.handleLike()}>
             <MaterialCommunityIcons name={"arrow-right-bold"} size={45} color={"darkgreen"} />
           </TouchableHighlight>
