@@ -100,7 +100,7 @@ class ComparingContainer extends Component {
           {this.state.commonItems ? 
               <FlatList 
                 data={this.state.commonItems}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.id.toString()}
                 renderItem={({item}) => <ItemDisplay item={item} />}
               />
             : 

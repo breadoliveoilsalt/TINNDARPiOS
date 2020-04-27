@@ -29,7 +29,7 @@ class BrowsingContainer extends Component {
       .then(token => this.setState({token: token}))
       .then(() => getItemsToBrowse({token: this.state.token}))
       .then(itemsData => this.setState({itemsToBrowse: itemsData.items}))
-      .catch(() => console.log("There was a problem getting the items to browse"))
+      .catch(() => this.showMessages(["There was a problem getting the items to browse"]))
   }
 
   openLink(url) {

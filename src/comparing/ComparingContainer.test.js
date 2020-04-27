@@ -208,7 +208,10 @@ describe("<ComparingContainer />", () => {
 
       it("calls getCommonItems() with the token and email of other user to compare against", () => {
         wrapper.setState({token: userToken, attemptCompareTo: userToCompare})
-        jest.spyOn(apiRequests, "getCommonItems")
+        jest.spyOn(apiRequests, "getCommonItems").mockResolvedValue({
+          successfulComparisonTo: userToCompare,
+          commonItems: mockItemData
+        })
         const instance = wrapper.instance()
 
         return instance.handleComparison()
