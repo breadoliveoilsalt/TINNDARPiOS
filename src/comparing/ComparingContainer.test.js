@@ -4,11 +4,10 @@ import { Text, View, TextInput, FlatList } from 'react-native'
 import * as apiRequests from '../api/apiRequests'
 import * as tokenActions from '../userAccount/tokenActions'
 import * as linkingActions from '../api/linkingWrapper'
-import CoparingContainer from './ComparingContainer'
+import ComparingContainer from './ComparingContainer'
 import ActionButton from '../components/ActionButton'
 import ItemDisplay from './ItemDisplay'
 import MessagesModal from '../components/MessagesModal'
-import ComparingContainer from './ComparingContainer'
 
 const getDeeplyRenderedText = (wrapper) => {
   const textNodes = wrapper.find(Text)
@@ -151,6 +150,5 @@ describe("<ComparingContainer />", () => {
     })
 
   })
-
 
 })
