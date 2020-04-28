@@ -2,8 +2,8 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import TINNDARP from './main'
 import { ActivityIndicator } from 'react-native'
-import ProvideCredentialsView from './userAccount/ProvideCredentialsView'
-import UserAuthenticatedView from './userAccount/UserAuthenticatedView'
+import SignedOutView from './userAccount/SignedOutView'
+import LoggedInView from './userAccount/LoggedInView'
 import * as tokenActions from './userAccount/tokenActions'
 import * as apiRequests from './api/apiRequests'
 
@@ -27,43 +27,43 @@ describe("<TINNDARP />", () => {
       expect(wrapper.find(ActivityIndicator).length).toEqual(1)
     })
 
-    it("renders <UserAuthenticatedView /> if the user is logged in and the app is not fetching", () => {
+    it("renders <LoggedInView /> if the user is logged in and the app is not fetching", () => {
       wrapper.setState({loggedIn: false, fetching: false})
 
-      expect(wrapper.find(UserAuthenticatedView).length).toEqual(0)
+      expect(wrapper.find(LoggedInView).length).toEqual(0)
       
       wrapper.setState({loggedIn: true, fetching: false})
 
-      expect(wrapper.find(UserAuthenticatedView).length).toEqual(1)
+      expect(wrapper.find(LoggedInView).length).toEqual(1)
     })
 
-    it("passes signOutOfApp(), userEmail, and token to <UserAuthenticatedView /> as a props", () => {
+    it("passes signOutOfApp(), userEmail, and token to <LoggedInView /> as a props", () => {
       const currentUserEmail = "billy@billy.com"
       const currentUserToken = "xyz"
 
       wrapper.setState({loggedIn: true, fetching: false, userEmail: currentUserEmail, token: currentUserToken})
       const instance = wrapper.instance()
 
-      expect(wrapper.find(UserAuthenticatedView).prop("signOutOfApp")).toEqual(instance.signOutOfApp)
-      expect(wrapper.find(UserAuthenticatedView).prop("userEmail")).toEqual(currentUserEmail)
-      expect(wrapper.find(UserAuthenticatedView).prop("token")).toEqual(currentUserToken)
+      expect(wrapper.find(LoggedInView).prop("signOutOfApp")).toEqual(instance.signOutOfApp)
+      expect(wrapper.find(LoggedInView).prop("userEmail")).toEqual(currentUserEmail)
+      expect(wrapper.find(LoggedInView).prop("token")).toEqual(currentUserToken)
     })
 
-    it("renders <ProvideCredentialsView /> if the user is not logged in and the app is not fetching", () => {
+    it("renders <SignedOutView /> if the user is not logged in and the app is not fetching", () => {
       wrapper.setState({loggedIn: false, fetching: false})
 
-      expect(wrapper.find(ProvideCredentialsView).length).toEqual(1)
+      expect(wrapper.find(SignedOutView).length).toEqual(1)
       
       wrapper.setState({loggedIn: true, fetching: false})
 
-      expect(wrapper.find(ProvideCredentialsView).length).toEqual(0)
+      expect(wrapper.find(SignedOutView).length).toEqual(0)
     })
 
-    it("passes logInToApp() to <ProvideCredentialsView /> as a prop", () => {
+    it("passes logInToApp() to <SignedOutView /> as a prop", () => {
       wrapper.setState({loggedIn: false, fetching: false})
       const instance = wrapper.instance()
 
-      expect(wrapper.find(ProvideCredentialsView).prop("logInToApp")).toEqual(instance.logInToApp)
+      expect(wrapper.find(SignedOutView).prop("logInToApp")).toEqual(instance.logInToApp)
     })
   })
 
@@ -198,11 +198,11 @@ describe("<TINNDARP />", () => {
         })
     })
 
-    it("updates the state based on the user information passed in, causing <UserAuthenticatedView /> to render", () => {
+    it("updates the state based on the user information passed in, causing <LoggedInView /> to render", () => {
       expect(wrapper.state().loggedIn).toEqual(false)
       expect(wrapper.state().userEmail).toEqual("")
       expect(wrapper.state().token).toEqual("")
-      expect(wrapper.find(UserAuthenticatedView).length).toEqual(0)
+      expect(wrapper.find(LoggedInView).length).toEqual(0)
 
       const mockUserInfo = {
         loggedIn: true,
@@ -217,7 +217,7 @@ describe("<TINNDARP />", () => {
           expect(wrapper.state().loggedIn).toEqual(true)
           expect(wrapper.state().userEmail).toEqual(mockUserInfo.userEmail)
           expect(wrapper.state().token).toEqual(mockUserInfo.token)
-          expect(wrapper.find(UserAuthenticatedView).length).toEqual(1)
+          expect(wrapper.find(LoggedInView).length).toEqual(1)
         })
     })
 
@@ -242,7 +242,7 @@ describe("<TINNDARP />", () => {
         token: "xyz"
       }
       wrapper.setState(mockUserInfo)
-      expect(wrapper.find(ProvideCredentialsView).length).toEqual(0)
+      expect(wrapper.find(SignedOutView).length).toEqual(0)
 
       jest.spyOn(tokenActions, "deleteToken").mockResolvedValue(true)
       const instance = wrapper.instance()
@@ -252,7 +252,7 @@ describe("<TINNDARP />", () => {
           expect(wrapper.state().loggedIn).toEqual(false)
           expect(wrapper.state().userEmail).toEqual("")
           expect(wrapper.state().token).toEqual("")
-          expect(wrapper.find(ProvideCredentialsView).length).toEqual(1)
+          expect(wrapper.find(SignedOutView).length).toEqual(1)
         })
     })
 

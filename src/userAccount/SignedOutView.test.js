@@ -1,13 +1,12 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import ProvideCredentialsView from './ProvideCredentialsView'
+import SignedOutView from './SignedOutView'
 import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 import { TextInput } from 'react-native'
 import * as apiRequests from '../api/apiRequests'
-import * as tokenActions from '../userAccount/tokenActions'
 
-describe("<ProvideCredentialsView />", () => {
+describe("<SignedOutView />", () => {
   
   const mockUserEmail = "bill@bill.com"
   const mockUserPassword = "password"
@@ -16,7 +15,7 @@ describe("<ProvideCredentialsView />", () => {
 
   beforeEach(() => {
     props = {logInToApp: jest.fn()}
-    wrapper = shallow(<ProvideCredentialsView {...props} />)
+    wrapper = shallow(<SignedOutView {...props} />)
   })
 
   it("has a TextInput for entering a user's email address, with changes updating the userEmail state", () => {

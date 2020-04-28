@@ -6,7 +6,7 @@ import UserHome from './UserHome'
 import BrowsingContainer from '../browsing/BrowsingContainer'
 import ComparingContainer from '../comparing/ComparingContainer'
 
-export default class UserAuthenticatedView extends Component {
+export default class LoggedInView extends Component {
 
   constructor(props) {
     super(props)

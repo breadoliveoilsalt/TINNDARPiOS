@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import * as tokenActions from './userAccount/tokenActions'
 import { authenticateUserToken } from './api/apiRequests'
-import ProvideCredentialsView from './userAccount/ProvideCredentialsView'
-import UserAuthenticatedView from './userAccount/UserAuthenticatedView'
+import SignedOutView from './userAccount/SignedOutView'
+import LoggedInView from './userAccount/LoggedInView'
 import { View, StyleSheet, ActivityIndicator } from 'react-native'
 
 export default class TINNDARP extends Component {
@@ -68,14 +68,14 @@ export default class TINNDARP extends Component {
     }
 
     if (this.state.loggedIn) { 
-      return <UserAuthenticatedView 
+      return <LoggedInView 
         signOutOfApp={this.signOutOfApp}
         userEmail={this.state.userEmail}
         token={this.state.token}
       />
     } 
     
-    return <ProvideCredentialsView logInToApp={this.logInToApp} /> 
+    return <SignedOutView logInToApp={this.logInToApp} /> 
   }
   
 }

@@ -5,7 +5,7 @@ import Logo from '../components/Logo'
 import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 
-export default class ProvideCredentialsView extends Component {
+export default class SignedOutView extends Component {
 
   constructor(props) {
     super(props)
