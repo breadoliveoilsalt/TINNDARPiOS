@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Image } from 'react-native'
 import splashImage from '../../assets/splash.png'
 
-const SplashScreen = () => {
+export default SplashScreen = () => {
   return (
     <View style={{flex: 1, backgroundColor: "#3484F2"}}> 
       <Image
@@ -12,5 +12,3 @@ const SplashScreen = () => {
     </View>
   )
 }
-
-export default SplashScreen

@@ -6,7 +6,7 @@ import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 import ItemDisplay from './ItemDisplay'
 
-class ComparingContainer extends Component {
+export default class ComparingContainer extends Component {
 
   constructor(props) {
     super(props)
@@ -120,8 +120,6 @@ class ComparingContainer extends Component {
     )
   }
 }
-
-export default ComparingContainer
 
 const styles = StyleSheet.create({
   container: {

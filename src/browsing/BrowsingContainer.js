@@ -8,7 +8,7 @@ import SwipeableImage from './SwipeableImage'
 import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 
-class BrowsingContainer extends Component {
+export default class BrowsingContainer extends Component {
 
   constructor(props) {
     super(props)
@@ -160,8 +160,6 @@ class BrowsingContainer extends Component {
     )
   }
 }
-
-export default BrowsingContainer
 
 const styles = StyleSheet.create({
   container: {

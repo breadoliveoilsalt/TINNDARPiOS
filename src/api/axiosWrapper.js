@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 
-const axiosWrapper = {
+export default axiosWrapper = {
   get: (url) => {
     return axios.get(url)
   },
@@ -24,5 +24,3 @@ const axiosWrapper = {
   }
 
 }
-
-export default axiosWrapper

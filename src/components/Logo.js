@@ -1,13 +1,11 @@
 import React from 'react'
 import { Text, StyleSheet } from 'react-native'
 
-const Logo = () => {
+export default Logo = () => {
   return (
     <Text style={styles.text}>TINNDÅRP</Text>
   )
 }
-
-export default Logo
 
 const styles = StyleSheet.create({
   text: {

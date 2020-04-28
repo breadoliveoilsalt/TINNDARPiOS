@@ -6,7 +6,7 @@ import UserHome from './UserHome'
 import BrowsingContainer from '../browsing/BrowsingContainer'
 import ComparingContainer from '../comparing/ComparingContainer'
 
-class UserAuthenticatedView extends Component {
+export default class UserAuthenticatedView extends Component {
 
   constructor(props) {
     super(props)
@@ -51,6 +51,3 @@ class UserAuthenticatedView extends Component {
     )
   }
 }
-
-export default UserAuthenticatedView
-

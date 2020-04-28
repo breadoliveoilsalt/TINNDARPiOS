@@ -5,7 +5,7 @@ import * as tokenActions from './src/userAccount/tokenActions'
 import SplashScreenComponent from './src/components/SplashScreen'
 import TINNDARP from './src/main'
 
-class App extends Component {
+export default class App extends Component {
 
   constructor(props) {
     super(props)
@@ -52,5 +52,3 @@ class App extends Component {
     }
   }
 }
-
-export default App

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, View, Text, TouchableHighlight, StyleSheet } from 'react-native'
 
-class MessagesModal extends Component {
+export default class MessagesModal extends Component {
 
   constructor(props) {
     super(props)
@@ -35,8 +35,6 @@ class MessagesModal extends Component {
     )
   }
 }
-
-export default MessagesModal
 
 const styles = StyleSheet.create({
   centeredModal: {

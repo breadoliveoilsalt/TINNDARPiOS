@@ -5,7 +5,7 @@ import Logo from '../components/Logo'
 import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 
-class ProvideCredentialsView extends Component {
+export default class ProvideCredentialsView extends Component {
 
   constructor(props) {
     super(props)
@@ -96,8 +96,6 @@ class ProvideCredentialsView extends Component {
 
   }
 }
-
-export default ProvideCredentialsView
 
 const styles = StyleSheet.create({
   container: {

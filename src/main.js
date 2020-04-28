@@ -3,7 +3,7 @@ import * as tokenActions from './userAccount/tokenActions'
 import ProvideCredentialsView from './userAccount/ProvideCredentialsView'
 import UserAuthenticatedView from './userAccount/UserAuthenticatedView'
 
-class TINNDARP extends Component {
+export default class TINNDARP extends Component {
 
   constructor(props) {
     super(props)
@@ -33,5 +33,3 @@ class TINNDARP extends Component {
   }
   
 }
-
-export default TINNDARP
