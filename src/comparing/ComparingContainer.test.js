@@ -2,7 +2,6 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { Text, TextInput, FlatList } from 'react-native'
 import * as apiRequests from '../api/apiRequests'
-import * as tokenActions from '../userAccount/tokenActions'
 import ComparingContainer from './ComparingContainer'
 import ActionButton from '../components/ActionButton'
 import ItemDisplay from './ItemDisplay'
@@ -42,12 +41,16 @@ const mockItemData = [
 
 const comparedUserEmail = "bobby@bobby.com"
 
+const props = {
+  token: "xyz"
+}
+
 describe("<ComparingContainer />", () => {
 
   let wrapper
   
   beforeEach(() => {
-    wrapper = shallow(<ComparingContainer />)
+    wrapper = shallow(<ComparingContainer {...props} />)
   })
 
   describe("the layout", () => {
@@ -156,19 +159,6 @@ describe("<ComparingContainer />", () => {
 
   describe("the logic", () => {
 
-    it("gets the token when it mounts", () => {
-      const userToken = "xyz"
-      jest.spyOn(tokenActions, "getToken").mockResolvedValue(userToken)
-
-      const instance = wrapper.instance()
-
-      return instance.componentDidMount()
-        .then(() => {
-          expect(tokenActions.getToken).toHaveBeenCalledTimes(1)
-          expect(wrapper.state().token).toEqual(userToken)
-        })
-    })
-
     describe("showMessages()", () => {
       
       it("updates the state to show the <MessageModal /> and messages", () => {
@@ -206,8 +196,8 @@ describe("<ComparingContainer />", () => {
       const userToken = "xyz"
       const userToCompare = "billy@billy.com"
 
-      it("calls getCommonItems() with the token and email of other user to compare against", () => {
-        wrapper.setState({token: userToken, attemptCompareTo: userToCompare})
+      it("calls getCommonItems() with the token prop and email of other user to compare against", () => {
+        wrapper.setState({attemptCompareTo: userToCompare})
         jest.spyOn(apiRequests, "getCommonItems").mockResolvedValue({
           successfulComparisonTo: userToCompare,
           commonItems: mockItemData
@@ -217,7 +207,7 @@ describe("<ComparingContainer />", () => {
         return instance.handleComparison()
           .then(() => {
             expect(apiRequests.getCommonItems).toHaveBeenCalledTimes(1)
-            expect(apiRequests.getCommonItems).toHaveBeenCalledWith({token: userToken, compare_to: userToCompare})
+            expect(apiRequests.getCommonItems).toHaveBeenCalledWith({token: props.token, compare_to: userToCompare})
           })
       })
 

@@ -2,7 +2,6 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { Text, ActivityIndicator } from 'react-native'
 import * as apiRequests from '../api/apiRequests'
-import * as tokenActions from '../userAccount/tokenActions'
 import * as linkingActions from '../api/linkingWrapper'
 import BrowsingContainer from './BrowsingContainer'
 import ActionButton from '../components/ActionButton'
@@ -40,32 +39,23 @@ describe("<BrowsingContainer />", () => {
     }
   ]
 
+  const props = {
+    token: "xyz"
+  }
+
   let wrapper
   
   beforeEach(() => {
-    wrapper = shallow(<BrowsingContainer />)
+    wrapper = shallow(<BrowsingContainer {...props} />)
   })
 
   describe("when it mounts", () => {
 
     beforeEach(() => {
-      jest.spyOn(tokenActions, "getToken").mockResolvedValue(userToken)
       jest.spyOn(apiRequests, "getItemsToBrowse").mockResolvedValue({items: mockItemsData})
     })
 
-    it("gets the user's token when it mounts", () => {
-      expect(wrapper.state().token).toEqual(null)
-
-      const instance = wrapper.instance()
-
-      return instance.componentDidMount()
-        .then(() => {
-          expect(tokenActions.getToken).toHaveBeenCalledTimes(1)
-          expect(wrapper.state().token).toEqual(userToken)
-        })
-    })
-
-    it("gets the itemsToBrowse from the api", () => {
+    it("gets the itemsToBrowse from the api with the token props", () => {
       expect(wrapper.state().itemsToBrowse).toEqual(null)
 
       const instance = wrapper.instance()
@@ -73,6 +63,7 @@ describe("<BrowsingContainer />", () => {
       return instance.componentDidMount()
         .then(() => {
           expect(apiRequests.getItemsToBrowse).toHaveBeenCalledTimes(1)
+          expect(apiRequests.getItemsToBrowse).toHaveBeenCalledWith({token: props.token})
           expect(wrapper.state().itemsToBrowse).toEqual(mockItemsData)
         })
 

@@ -4,7 +4,6 @@ import SplashScreen from './src/components/SplashScreen'
 import TINNDARP from './src/main'
 import App from './App'
 import * as apiRequests from './src/api/apiRequests'
-import * as tokenActions from './src/userAccount/tokenActions'
 
 describe('<App />', () => {
 
@@ -30,13 +29,6 @@ describe('<App />', () => {
     expect(wrapper.find(TINNDARP).length).toEqual(1)
   })
 
-  it("passes the tokenExists state to <TINNDARP />", () => {
-    wrapper.setState({appIsReady: true})
-    const tinndarpProps = wrapper.find(TINNDARP).props()
-
-    expect(tinndarpProps.tokenExists).toEqual(wrapper.props().tokenExists)
-  })
-
   it("warms up the backend when it mounts", async () => {
     const instance = wrapper.instance()
     jest.spyOn(instance, 'warmUp')
@@ -56,24 +48,10 @@ describe('<App />', () => {
       expect(apiRequests.wakeUpAPI).toHaveBeenCalledTimes(1)
     })
 
-    it("checks if the user has a token", async () => {
-      jest.spyOn(apiRequests, "wakeUpAPI").mockResolvedValue(mockData)
-      jest.spyOn(tokenActions, "tokenExists").mockResolvedValue(true)
-
-      expect(wrapper.state().tokenExists).toEqual(false)
-
-      return wrapper.instance().warmUp()
-        .then(() => {
-          expect(tokenActions.tokenExists).toHaveBeenCalledTimes(1)
-          expect(wrapper.state().tokenExists).toEqual(true)
-        })
-    })
-    
     it("delays the ready state to add a pause to the SplashScreen if the api response is fast", async () => {
       const instance = wrapper.instance()
       jest.spyOn(instance, 'delayReadyState')
       jest.spyOn(apiRequests, "wakeUpAPI").mockResolvedValue(mockData)
-      jest.spyOn(tokenActions, "tokenExists").mockResolvedValue(true)
 
       return wrapper.instance().warmUp()
         .then(() => {

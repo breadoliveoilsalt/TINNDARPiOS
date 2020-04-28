@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TextInput, FlatList, Keyboard } from 'react-native'
 import { getCommonItems } from '../api/apiRequests'
-import { getToken } from '../userAccount/tokenActions'
 import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 import ItemDisplay from './ItemDisplay'
@@ -11,7 +10,6 @@ export default class ComparingContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      token: null,
       attemptCompareTo: "",
       successfulComparisonTo: "",
       commonItems: null,
@@ -22,16 +20,11 @@ export default class ComparingContainer extends Component {
     this.hideMessages = this.hideMessages.bind(this)
   }
 
-  componentDidMount() {
-    return getToken()
-      .then(token => this.setState({ token: token }))
-      .catch(error => this.showMessages(["There was a problem getting token", error.message]))
-  }
 
   handleComparison() {
     Keyboard.dismiss()
     const params = {
-      token: this.state.token,
+      token: this.props.token,
       compare_to: this.state.attemptCompareTo.trim()
     }
     return getCommonItems(params)
@@ -64,7 +57,6 @@ export default class ComparingContainer extends Component {
   }
 
   render() {
-
     return (
       <View style={styles.container} >
 

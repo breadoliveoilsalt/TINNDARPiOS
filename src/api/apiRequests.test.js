@@ -50,7 +50,7 @@ describe("logIn()", () => {
     const expectedParams = { 
       user: {
         ...userCredentials, 
-        persistent_token: true 
+        persistent_token: "true" 
       }
     }
     expect(fetchWrapper.post.mock.calls[0][1]).toEqual(expectedParams)
@@ -141,7 +141,7 @@ describe("signUp()", () => {
     const expectedParams = { 
       user: {
         ...userCredentials, 
-        persistent_token: true 
+        persistent_token: "true" 
       }
     }
     expect(fetchWrapper.post.mock.calls[0][1]).toEqual(expectedParams)
@@ -232,7 +232,7 @@ describe("authenticateUserToken()", () => {
     const expectedParams = { 
       user: {
         ...userCredentials, 
-        persistent_token: true 
+        persistent_token: "true" 
       }
     }
     expect(fetchWrapper.getWithParams.mock.calls[0][1]).toEqual(expectedParams)

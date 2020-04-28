@@ -28,7 +28,7 @@ export const authenticateUserToken = (credentials) => {
 const formatUserParams = (credentials) => {
   return { user: {
     ...credentials,
-    persistent_token: true 
+    persistent_token: "true"
     }
   }
 }

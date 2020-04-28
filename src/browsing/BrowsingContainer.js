@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, ActivityIndicator, TouchableHighlight } from 'r
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { openURL } from '../api/linkingWrapper'
 import { getItemsToBrowse, postBrowsingDecision } from '../api/apiRequests'
-import { getToken } from '../userAccount/tokenActions'
 import SwipeableImage from './SwipeableImage'
 import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
@@ -13,7 +12,6 @@ export default class BrowsingContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      token: null,
       itemsToBrowse: null,
       messages: [],
       messagesModalVisible: false
@@ -25,9 +23,7 @@ export default class BrowsingContainer extends Component {
   }
 
   componentDidMount() {
-    return getToken()
-      .then(token => this.setState({token: token}))
-      .then(() => getItemsToBrowse({token: this.state.token}))
+    return getItemsToBrowse({token: this.props.token})
       .then(itemsData => this.setState({itemsToBrowse: itemsData.items}))
       .catch(() => this.showMessages(["There was a problem getting the items to browse"]))
   }
@@ -42,7 +38,7 @@ export default class BrowsingContainer extends Component {
 
   handleLike(currentItem = this.getCurrentItem()) {
     const params = {
-      token: this.state.token,
+      token: this.props.token,
       item_id: currentItem.id,
       liked: "true"
     }
@@ -51,7 +47,7 @@ export default class BrowsingContainer extends Component {
 
   handleNope(currentItem = this.getCurrentItem()) {
     const params = {
-      token: this.state.token,
+      token: this.props.token,
       item_id: currentItem.id,
       liked: "false"
     }

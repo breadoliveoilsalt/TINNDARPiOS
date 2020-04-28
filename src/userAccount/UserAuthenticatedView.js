@@ -1,7 +1,7 @@
 import React, { Component }from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { MaterialCommunityIcons, MaterialIcons, Ionicons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import UserHome from './UserHome'
 import BrowsingContainer from '../browsing/BrowsingContainer'
 import ComparingContainer from '../comparing/ComparingContainer'
@@ -17,6 +17,7 @@ export default class UserAuthenticatedView extends Component {
 
     return (
       <NavigationContainer>
+        
         <Tab.Navigator
           initialRouteName={"Home"}
           screenOptions={({ route }) => ({
@@ -41,11 +42,35 @@ export default class UserAuthenticatedView extends Component {
               }
           }}
         >
-          <Tab.Screen name="Home">
-            {props => <UserHome {...props} signOutOfApp={this.props.signOutOfApp} />}
+
+          <Tab.Screen name="Home" >
+            {props => 
+              <UserHome 
+                {...props} 
+                signOutOfApp={this.props.signOutOfApp}
+                userEmail={this.props.userEmail}
+              />
+            }
           </Tab.Screen>
-          <Tab.Screen name={"Browse"} component={BrowsingContainer} />
-          <Tab.Screen name={"Compare"} component={ComparingContainer} />
+
+          <Tab.Screen name={"Browse"} >
+            {props => 
+              <BrowsingContainer 
+                {...props} 
+                token={this.props.token}
+              />
+            }
+          </Tab.Screen>
+
+          <Tab.Screen name={"Compare"} >
+            {props => 
+              <ComparingContainer 
+                {...props} 
+                token={this.props.token}
+              />
+            }
+          </Tab.Screen>
+
         </Tab.Navigator>
       </NavigationContainer>
     )

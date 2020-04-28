@@ -23,11 +23,11 @@ export default class ProvideCredentialsView extends Component {
       password: this.state.userPassword
     }
     return callback(credentials)
-      .then(data => {
-        if (data.loggedIn) {
-          this.props.logInToApp(data.token)
-        } else if (!data.loggedIn) {
-          const messages = ["Sorry, there were some errors:", ...data.errors]
+      .then(response => {
+        if (response.loggedIn) {
+          this.props.logInToApp(response)
+        } else if (!response.loggedIn) {
+          const messages = ["Sorry, there were some errors:", ...response.errors]
           this.showMessages(messages)
         }
       })
