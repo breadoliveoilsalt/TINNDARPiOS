@@ -43,6 +43,7 @@ class ComparingContainer extends Component {
             successfulComparisonTo: response.successfulComparisonTo,
             commonItems: response.commonItems
           })
+          this.flatListRef.scrollToOffset({ animated: true, offset: 0 })
         }
       })
       .catch(error => this.showMessages([error.message]))
@@ -102,6 +103,7 @@ class ComparingContainer extends Component {
                 data={this.state.commonItems}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({item}) => <ItemDisplay item={item} />}
+                ref={(ref) => {this.flatListRef = ref}}
               />
             : 
               null
