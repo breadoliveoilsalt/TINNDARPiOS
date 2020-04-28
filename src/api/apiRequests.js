@@ -18,6 +18,13 @@ export const signUp = (credentials) => {
     .then(rawData => processAuthenticationResponse(rawData))
 }
 
+export const authenticateUserToken = (credentials) => {
+  const url = apiBaseURL + "/authenticate_user_token"
+  const params = formatUserParams(credentials)
+  return fetchWrapper.getWithParams(url, params)
+    .then(rawData => processAuthenticationResponse(rawData))
+}
+
 const formatUserParams = (credentials) => {
   return { user: {
     ...credentials,

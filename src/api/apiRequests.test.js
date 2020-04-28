@@ -195,6 +195,97 @@ describe("signUp()", () => {
 
 })
 
+describe("authenticateUserToken()", () => {
+
+  const userCredentials = {
+    token: "xyz"
+  }
+
+  let mockData = {
+    data: {
+      logged_in: true,
+      token: "xyz",
+      user_email: "billy@billy.com"
+    }
+  }
+
+  beforeEach(() => {
+    jest.spyOn(fetchWrapper, "getWithParams").mockResolvedValue(mockData)
+  })
+
+  it("calls the getWithParams() method of the fetchWrapper", () => {
+    apiRequests.authenticateUserToken(userCredentials)
+
+    expect(fetchWrapper.getWithParams).toHaveBeenCalledTimes(1)
+  })
+
+  it("calls the getWithParams() method with the cofigured apiBaseURL plus /authenticate_user_token", () => {
+    apiRequests.authenticateUserToken(userCredentials)
+
+    const expectedURL = apiBaseURL + "/authenticate_user_token"
+    expect(fetchWrapper.getWithParams.mock.calls[0][0]).toEqual(expectedURL)
+  })
+
+  it("passes the userCredentials to the getWithParams() method of fetchwapper after indicating the token should be persistent and prefixing a 'user' key", () => {
+    apiRequests.authenticateUserToken(userCredentials)
+
+    const expectedParams = { 
+      user: {
+        ...userCredentials, 
+        persistent_token: true 
+      }
+    }
+    expect(fetchWrapper.getWithParams.mock.calls[0][1]).toEqual(expectedParams)
+  })
+
+  it("parses the return data to return a simple object with errors if the data returns errors ", () => {
+    mockData = {
+      headers: "stuff",
+      data: {
+        logged_in: "false",
+        errors: ["Invalid log in credentials."]
+      },
+      metaData: {
+        statusCode: 200
+      }
+    }
+    jest.spyOn(fetchWrapper, "getWithParams").mockResolvedValue(mockData)
+
+    return apiRequests.authenticateUserToken(userCredentials).then(result => {
+      const expectedResult = {
+        loggedIn: false,
+        errors: mockData.data.errors
+      }
+      expect(result).toEqual(expectedResult)
+    })
+  })
+
+  it("parses the return data to return a simple object with a loggedIn status, token, and email if the returned data does not have errors", () => {
+    mockData = {
+      headers: "stuff",
+      data: {
+        logged_in: "true",
+        token: "xyz",
+        user_email: "billy@billy.com"
+      },
+      metaData: {
+        statusCode: 200
+      }
+    }
+    jest.spyOn(fetchWrapper, "getWithParams").mockResolvedValue(mockData)
+
+    return apiRequests.authenticateUserToken(userCredentials).then(result => {
+      const expectedResult = {
+        loggedIn: true,
+        token: mockData.data.token,
+        userEmail: mockData.data.user_email
+      }
+      expect(result).toEqual(expectedResult)
+    })
+  })
+
+})
+
 const mockData = {
   data: {
     items: [
