@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   compareForm: {
-    paddingTop: "7%",
+    paddingTop: "6%",
     width: "100%",
     height: "35%",
     alignItems: "center",
