@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   compareForm: {
-    paddingTop: "5%",
+    paddingTop: "7%",
     width: "100%",
     height: "35%",
     alignItems: "center",
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 15,
-    margin: "3%",
+    margin: "2%",
     textAlign: "center",
     color: "#FFDD1F",
     backgroundColor: "#3484F2"
