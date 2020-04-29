@@ -35,10 +35,10 @@ export default class LoggedInView extends Component {
               activeTintColor: "black",
               inactiveTintColor: "#3484F2",
               style: {
-                height: 80,
+                height: 60,
                 backgroundColor: "lightgrey",
-                paddingTop: 15,
-                paddingBottom: 15
+                paddingTop: 5,
+                paddingBottom: 5
               }
           }}
         >
