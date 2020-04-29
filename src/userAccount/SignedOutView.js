@@ -5,7 +5,7 @@ import Logo from '../components/Logo'
 import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 
-class ProvideCredentialsView extends Component {
+export default class SignedOutView extends Component {
 
   constructor(props) {
     super(props)
@@ -23,11 +23,11 @@ class ProvideCredentialsView extends Component {
       password: this.state.userPassword
     }
     return callback(credentials)
-      .then(data => {
-        if (data.loggedIn) {
-          this.props.logInToApp(data.token)
-        } else if (!data.loggedIn) {
-          const messages = ["Sorry, there were some errors:", ...data.errors]
+      .then(response => {
+        if (response.loggedIn) {
+          this.props.logInToApp(response)
+        } else if (!response.loggedIn) {
+          const messages = ["Sorry, there were some errors:", ...response.errors]
           this.showMessages(messages)
         }
       })
@@ -93,11 +93,8 @@ class ProvideCredentialsView extends Component {
 
       </KeyboardAvoidingView>
     )
-
   }
 }
-
-export default ProvideCredentialsView
 
 const styles = StyleSheet.create({
   container: {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { PanResponder, Animated, Dimensions } from 'react-native'
 
-class SwipeableImage extends Component {
+export default class SwipeableImage extends Component {
 
   constructor(props) {
     super(props)
@@ -51,5 +51,3 @@ class SwipeableImage extends Component {
     )
   }
 }
-
-export default SwipeableImage

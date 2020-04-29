@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TextInput, FlatList, Keyboard } from 'react-native'
 import { getCommonItems } from '../api/apiRequests'
-import { getToken } from '../userAccount/tokenActions'
 import ActionButton from '../components/ActionButton'
 import MessagesModal from '../components/MessagesModal'
 import ItemDisplay from './ItemDisplay'
 
-class ComparingContainer extends Component {
+export default class ComparingContainer extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      token: null,
       attemptCompareTo: "",
       successfulComparisonTo: "",
       commonItems: null,
@@ -22,16 +20,11 @@ class ComparingContainer extends Component {
     this.hideMessages = this.hideMessages.bind(this)
   }
 
-  componentDidMount() {
-    return getToken()
-      .then(token => this.setState({ token: token }))
-      .catch(error => this.showMessages(["There was a problem getting token", error.message]))
-  }
 
   handleComparison() {
     Keyboard.dismiss()
     const params = {
-      token: this.state.token,
+      token: this.props.token,
       compare_to: this.state.attemptCompareTo.trim()
     }
     return getCommonItems(params)
@@ -43,6 +36,7 @@ class ComparingContainer extends Component {
             successfulComparisonTo: response.successfulComparisonTo,
             commonItems: response.commonItems
           })
+          this.flatListRef.scrollToOffset({ animated: true, offset: 0 })
         }
       })
       .catch(error => this.showMessages([error.message]))
@@ -63,7 +57,6 @@ class ComparingContainer extends Component {
   }
 
   render() {
-
     return (
       <View style={styles.container} >
 
@@ -102,6 +95,7 @@ class ComparingContainer extends Component {
                 data={this.state.commonItems}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({item}) => <ItemDisplay item={item} />}
+                ref={(ref) => {this.flatListRef = ref}}
               />
             : 
               null
@@ -119,8 +113,6 @@ class ComparingContainer extends Component {
   }
 }
 
-export default ComparingContainer
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -128,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   compareForm: {
-    paddingTop: "5%",
+    paddingTop: "7%",
     width: "100%",
     height: "35%",
     alignItems: "center",
@@ -144,7 +136,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 15,
-    margin: "3%",
+    margin: "2%",
     textAlign: "center",
     color: "#FFDD1F",
     backgroundColor: "#3484F2"

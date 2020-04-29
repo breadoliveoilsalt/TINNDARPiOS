@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, TouchableHighlight, StyleSheet } from 'react-native'
 
-const ActionButton = (props) => {
+export default ActionButton = (props) => {
   const { action, buttonText } = props
   const customStyles = props.style ? props.style : {}
   return (
@@ -16,19 +16,17 @@ const ActionButton = (props) => {
   )
 }
 
-export default ActionButton
-
 const styles = StyleSheet.create({
   button: {
     width: "60%",
-    marginTop: "3%",
+    marginTop: 12,
     borderWidth: 2,
     borderColor: "#808080",
     backgroundColor: "#FFDD1F",
   },
   buttonText: {
-    paddingTop: "3.5%",
-    paddingBottom: "3.5%",
+    paddingTop: 10,
+    paddingBottom: 10,
     fontSize: 20,
     color: "#3484F2",
     textAlign: "center"

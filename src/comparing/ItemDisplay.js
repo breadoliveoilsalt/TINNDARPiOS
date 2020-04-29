@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { openURL } from '../api/linkingWrapper'
 import ActionButton from '../components/ActionButton'
 
-const ItemDisplay = (props) => {
+export default ItemDisplay = (props) => {
 
   const item = props.item
   const customStyles = props.style ? props.style : {}
@@ -48,8 +48,6 @@ const ItemDisplay = (props) => {
     </View>
   )
 }
-
-export default ItemDisplay
 
 const defaultFontSize = 15
 const styles = StyleSheet.create({

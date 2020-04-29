@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import { Modal, View, Text, TouchableHighlight, StyleSheet } from 'react-native'
 
-class MessagesModal extends Component {
+export default class MessagesModal extends Component {
 
   constructor(props) {
     super(props)
   }
 
   renderMessages() {
-    return this.props.messages.map((message, index) => {
-      return <Text key={index} style={styles.modalText}>{message}</Text>
-    })
+    if (this.props.messages) {
+      return this.props.messages.map((message, index) => {
+        return <Text key={index} style={styles.modalText}>{message}</Text>
+      })
+    } else {
+      return null
+    }
   }
 
   render() {
@@ -35,8 +39,6 @@ class MessagesModal extends Component {
     )
   }
 }
-
-export default MessagesModal
 
 const styles = StyleSheet.create({
   centeredModal: {
