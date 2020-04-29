@@ -2,9 +2,9 @@
 
 # TINNDÅRP for iOS 
 
-TINNDÅRP is a [React Native](https://reactnative.dev/docs/getting-started) app built with an [Expo](https://docs.expo.io/versions/latest/) workflow. Its build is handled by [Travis CI](https://docs.travis-ci.com/). Unit tests rely on [Jest](https://jestjs.io/) and [Enzyme](https://enzymejs.github.io/enzyme/).
+TINNDÅRP is a [React Native](https://reactnative.dev/docs/getting-started) app built with an [Expo](https://docs.expo.io/versions/latest/) workflow. Its build is handled by [Travis CI](https://travis-ci.com/github/breadoliveoilsalt/TINNDARPiOS). Unit tests rely on [Jest](https://jestjs.io/) and [Enzyme](https://enzymejs.github.io/enzyme/).
 
-The repo can be found on GitHub [here](https://github.com/breadoliveoilsalt/TINNDARPiOS).
+The repo can be found on GitHub [here](https://github.com/breadoliveoilsalt/TINNDARPiOS).  The repo is "frontend only".  The app authenticates users and gets its data via a [TINNDÅRP backend API](https://github.com/breadoliveoilsalt/tinndarp-backend), hosted [here](https://tinndarp-backend.herokuapp.com/) on Heroku.   
 
 ## Introduction to Expo
 
@@ -49,7 +49,7 @@ These methods of accessing TINNDÅRP are described below.
   - Once the Expo DevTool is running, there are several options to launch TINNDÅRP:
     - If you click "Run on iOS simulator" on the left, a Simulator should appear and launch TINNDÅRP.
       - Running `yarn ios` from the command line also provides a way of launching the app directly in a Simulator.
-      - Similar to running TINNDÅRP on your iPhone or iPad as described below, an iOS Simulator runs TINNDÅRP through another app installed on the Simulator - the Expo Client App.  So if you hit the home screen on the Simulator and cannot find TINNDÅRP, simply click on the Expo Client App on the Simulator.
+      - Similar to running TINNDÅRP on your iPhone or iPad as described below, an iOS Simulator runs TINNDÅRP through another app installed on the Simulator - the Expo Client App.  So if a Simulator opens up but does not launch TINNDÅRP automatically, look for the Expo Client App (in the screen shot below), click on it, and you should be able to launch TINNDÅRP from there.  Similarly, if you hit the home screen on the Simulator and cannot find TINNDÅRP, simply click on the Expo Client App on the Simulator.
 
 <p style="text-align:center"><img src="assets/readmeAssets/expoOnSimulator.png" width="200" /> </p>
 
@@ -65,7 +65,7 @@ Unit tests were written using Jest and Enzyme.
 
 # Deploys
 
-Deploys, accessible through the instructions immediately below, are handled by Travis CI when a GitHub branch is merged into the master branch.
+Deploys, accessible through the instructions immediately below, are handled by Travis CI[here](https://travis-ci.com/github/breadoliveoilsalt/TINNDARPiOS) when a GitHub branch is merged into the master branch. 
 
 # Accessing the built app without local installations
 
@@ -105,7 +105,9 @@ TINNDÅRP should appear.
 
 # Known Issues
 
-- Formatting: The app was styled primarily using a simulated iPhone 8. If the styling looks off in an iOS Simulator, try loading an iPhone 8. The styling might look a bit off in the virtual Android device described above.
+- Waking up the backend API: Heroku hosts the backend API for TINNDÅRP.  Heroku's free hosting service puts the API to sleep after a certain period of inactivity.  TINNDÅRP is designed to make sure the API is awake as it loads up on an iOS device.  Any long-ish period of time looking at the TINNDÅRP logo as the app loads up should be attributable to waking up the API and awaiting confirmation that it is awake. 
+
+- Formatting: TINNDÅRP looks best on a smaller screen, like the iPhone 8, instead of an iPhone 11.  An iPhone 8 is the suggested device if you open TINNDÅRP on an iOS Simulator. The styling might look a bit off in the virtual Android device described above, due to differences between iOS and Android devices.
 
 - Use of AsyncStorage and Jest warnings: For saving JSON Web Tokens locally, the app relies on the AsyncStorage module, as described in the [Expo docs](https://docs.expo.io/versions/latest/react-native/asyncstorage/). This requires importing AsyncStorage from React Native directly, but according to the React Native docs, AsyncStorage is depreciated with respect to the React Native core library and [must be imported from the React Native community](https://github.com/react-native-community/async-storage). As a result, you may see warnings when you run unit tests with Jest (via `yarn test`), such as this: 
  
