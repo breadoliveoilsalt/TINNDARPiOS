@@ -179,7 +179,6 @@ describe("<TINNDARP />", () => {
 
   })
 
-
   describe("logInToApp()", () => {
 
     it("saves the token from the user information passed in", () => {

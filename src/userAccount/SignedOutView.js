@@ -93,7 +93,6 @@ export default class SignedOutView extends Component {
 
       </KeyboardAvoidingView>
     )
-
   }
 }
 

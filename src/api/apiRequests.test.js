@@ -331,19 +331,19 @@ describe("getItemsToBrowse", () => {
     jest.spyOn(fetchWrapper, "getWithParams").mockResolvedValue(mockData)
   })
 
-  it("calls `getWithParams` on the configured fetchWrapper", () => {
+  it("calls getWithParams() on the configured fetchWrapper", () => {
     apiRequests.getItemsToBrowse(params)
 
     expect(fetchWrapper.getWithParams).toHaveBeenCalledTimes(1)
   })
 
-  it("passes to fetchWrapper's `getWithParams` an items url based on the configured base URL", () => {
+  it("passes to fetchWrapper's getWithParams() an browsing url based on the configured base URL", () => {
     apiRequests.getItemsToBrowse(params)
 
     expect(fetchWrapper.getWithParams.mock.calls[0][0]).toEqual(apiBaseURL + "/browsing")
   })
 
-  it("passes to fetchWrapper's `getWithParams` the params after nesting them under a browsing key", () => {
+  it("passes to fetchWrapper's getWithParams() the params after nesting them under a browsing key", () => {
     apiRequests.getItemsToBrowse(params)
 
     expect(fetchWrapper.getWithParams.mock.calls[0][1]).toEqual({browsing: params})

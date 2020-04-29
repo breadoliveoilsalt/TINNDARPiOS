@@ -116,6 +116,7 @@ describe("<BrowsingContainer />", () => {
     })
 
     describe("the <SwipeableImage />", () => {
+
       it("calls this.handleLike() with the first item when swiped right", () => {
         wrapper.setState({itemsToBrowse: mockItemsData})
         const swipeableImage = wrapper.find(SwipeableImage)
@@ -166,7 +167,7 @@ describe("<BrowsingContainer />", () => {
       jest.spyOn(apiRequests, "postBrowsingDecision").mockResolvedValue({})
     })
 
-    it("sends the user's token, first item's id, and user's 'like' decision to postBrowsingDecision", () => {
+    it("sends the user's token, first item's id, and user's 'like' decision to postBrowsingDecision()", () => {
       wrapper.setState({token: userToken})
 
       return instance.handleLike()
@@ -217,7 +218,7 @@ describe("<BrowsingContainer />", () => {
       jest.spyOn(apiRequests, "postBrowsingDecision").mockResolvedValue({})
     })
 
-    it("sends the user's token, first item's id, and user's 'nope' decision to postBrowsingDecision", () => {
+    it("sends the user's token, first item's id, and user's 'nope' decision to postBrowsingDecision()", () => {
       wrapper.setState({token: userToken})
 
       return instance.handleNope()

@@ -72,6 +72,7 @@ export default class LoggedInView extends Component {
           </Tab.Screen>
 
         </Tab.Navigator>
+
       </NavigationContainer>
     )
   }

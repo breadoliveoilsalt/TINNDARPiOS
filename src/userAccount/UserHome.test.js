@@ -25,7 +25,7 @@ describe("<UserHome />", () => {
   
   describe("the Sign Out button", () => {
 
-    it("calls the signOutOfApp prop when its action is triggered", () => {
+    it("calls the signOutOfApp() prop when its action is triggered", () => {
       const signOutButton = wrapper.find(ActionButton)
 
       signOutButton.props().action()

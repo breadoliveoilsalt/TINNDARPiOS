@@ -75,7 +75,7 @@ describe("<ComparingContainer />", () => {
 
     })
 
-    it("has an <ActionButton /> that with handleComparison as its action prop", () => {
+    it("has an <ActionButton /> with handleComparison() as its action prop", () => {
       const instance = wrapper.instance()
 
       const actionButton = wrapper.find(ActionButton)
@@ -147,7 +147,7 @@ describe("<ComparingContainer />", () => {
         expect(modal.prop("messages")).toEqual(wrapper.state().messages)
       })
 
-      it("calls hideMessages on close", () => {
+      it("calls hideMessages() on close", () => {
         const instance = wrapper.instance()
 
         expect(modal.prop("onClose")).toEqual(instance.hideMessages)

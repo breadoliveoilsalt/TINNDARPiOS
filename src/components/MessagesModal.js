@@ -8,9 +8,13 @@ export default class MessagesModal extends Component {
   }
 
   renderMessages() {
-    return this.props.messages.map((message, index) => {
-      return <Text key={index} style={styles.modalText}>{message}</Text>
-    })
+    if (this.props.messages) {
+      return this.props.messages.map((message, index) => {
+        return <Text key={index} style={styles.modalText}>{message}</Text>
+      })
+    } else {
+      return null
+    }
   }
 
   render() {
